@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using CommandsParser;
+using CommandLineParser;
 
 namespace CommandsParserSample
 {
@@ -13,7 +13,7 @@ namespace CommandsParserSample
         static bool isRunning;
         static void Main(string[] args)
         {
-            CommandsParser.CommandsParser cmdParser = new CommandsParser.CommandsParser();
+            CommandsParser cmdParser = new CommandsParser();
             cmdParser.AddCommand("close", delegate (object sender, CommandEventArgs e) {
 
                 isRunning = false;
