@@ -52,23 +52,25 @@ namespace CommandLineParser
                                        select c;
                     if (commandsSelected.Any())
                     {
-                        Log("List of " + commandsSelected.Count() + " appropriate commands for '" +
+                        e.CommandOutput.AppendLine("List of " + commandsSelected.Count() + " appropriate commands for '" +
                             e.Args[0] + "':");
                     }
                     else {
-                        Log("No appropriate commands found for '" + e.Args[0] + "'.");
+                        e.CommandOutput.AppendLine("No appropriate commands found for '" + e.Args[0] + "'.");
                         //e.Command.AddToHistory = false;
                     }
                 }
                 else {
                     commandsSelected = from c in commands.Values orderby c.Name select c;
-                    Log("List of all " + commands.Count + " commands:");
+                    e.CommandOutput.AppendLine("List of all " + commands.Count + " commands:");
                 }
                 int i = 0;
                 foreach (Command command in commandsSelected)
                 {
-                    Log(string.Format("{0:000}: {1} => {2}", ++i, command.Name, command.Help[0]));
+                    e.CommandOutput.AppendLine(string.Format("{0:000}: {1} => {2}", ++i, command.Name, command.Help[0]));
                 }
+
+                //Log(e.CommandOutput.ToString());
             }, "Lists all currently registered commands with their first description line.",
                 "commands <part of the command> - lists only the appropriate commands.");
 
@@ -86,7 +88,7 @@ namespace CommandLineParser
                         ClearCommands();
                     }
                     else {
-                        Log("Command 'clear " + e.Args[0] + "' not found.");
+                        e.CommandOutput.AppendLine("Command 'clear " + e.Args[0] + "' not found.");
                     }
                 }
                 else {
@@ -202,6 +204,7 @@ namespace CommandLineParser
         /// <returns>Returns true if the execution was successful, otherwise false.</returns>
         public bool Execute(string input)
         {
+            commandOutput.Clear();
             input = input.Trim();
 
             if (input == string.Empty)
