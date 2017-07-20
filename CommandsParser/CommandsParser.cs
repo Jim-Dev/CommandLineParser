@@ -8,6 +8,16 @@ namespace CommandLineParser
 {
     public class CommandsParser
     {
+        public string LastExecutedOutput
+        {
+            get
+            {
+
+                return this.commandOutput.ToString();
+            }
+        }
+        private StringBuilder commandOutput;
+
         private string outputPrefix;
         /// <summary>
         /// The dictionary to store all the commands and command event handlers.
@@ -25,6 +35,7 @@ namespace CommandLineParser
         {
             OutputPrefix = ">>> ";
             commands = new Dictionary<string, Command>();
+            commandOutput = new StringBuilder();
             AddDefaultCommands();
         }
 
@@ -206,7 +217,7 @@ namespace CommandLineParser
                 Command command = commands[splitInput[0]];
                 string[] args = new string[splitInput.Length - 1];
                 Array.Copy(splitInput, 1, args, 0, args.Length);
-                command.Handler(this, new CommandEventArgs(command, args));
+                command.Handler(this, new CommandEventArgs(command, args, commandOutput));
                 return true;
             }
             else

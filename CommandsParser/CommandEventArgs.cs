@@ -35,15 +35,21 @@ namespace CommandLineParser
         public string[] Args { get; private set; }
 
         /// <summary>
+        /// Gets the output the command.
+        /// </summary>
+        public StringBuilder CommandOutput { get; private set; }
+
+        /// <summary>
         /// Creates a new instance of the CommandEventArgs.
         /// </summary>
         /// <param name="command">The command.</param>
         /// <param name="args">The arguments passed on the command.</param>
-        public CommandEventArgs(Command command, string[] args)
+        public CommandEventArgs(Command command, string[] args, StringBuilder sb)
         {
             Time = DateTime.Now;
             Command = command;
             Args = args;
+            CommandOutput = sb;
         }
     }
 }

@@ -14,17 +14,22 @@ namespace CommandsParserSample
         static void Main(string[] args)
         {
             CommandsParser cmdParser = new CommandsParser();
-            cmdParser.AddCommand("close", delegate (object sender, CommandEventArgs e) {
-
+            cmdParser.AddCommand("close", delegate (object sender, CommandEventArgs e)
+            {
                 isRunning = false;
             }, "Close the application");
+            cmdParser.AddCommand("test", delegate (object sender, CommandEventArgs e)
+            {
 
+                e.CommandOutput.AppendLine("COMMAND OUTPUT");
+            }, "Close the application");
 
             isRunning = true;
 
             while (isRunning)
             {
                 cmdParser.Execute(Console.ReadLine());
+                Console.Write(cmdParser.LastExecutedOutput);
             }
         }
     }
