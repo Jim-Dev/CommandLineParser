@@ -8,11 +8,13 @@ namespace CommandLineParser
 {
     public class CommandsParser
     {
+        private Queue<string> commandsHistory;
+        private int maxCommandsInHistory = 3;
+
         public string LastExecutedOutput
         {
             get
             {
-
                 return this.commandOutput.ToString();
             }
         }
@@ -36,13 +38,17 @@ namespace CommandLineParser
             OutputPrefix = ">>> ";
             commands = new Dictionary<string, Command>();
             commandOutput = new StringBuilder();
+
+            commandsHistory = new Queue<string>();
+
             AddDefaultCommands();
         }
 
         private void AddDefaultCommands()
         {
 
-            AddCommand("help", delegate (object sender, CommandEventArgs e) {
+            AddCommand("help", delegate (object sender, CommandEventArgs e)
+            {
                 IEnumerable<Command> commandsSelected;
                 if (e.Args.Length > 0)
                 {
@@ -74,13 +80,8 @@ namespace CommandLineParser
             }, "Lists all currently registered commands with their first description line.",
                 "commands <part of the command> - lists only the appropriate commands.");
 
-           
-
-           
-
-           
-
-            AddCommand("clear", delegate (object sender, CommandEventArgs e) {
+            AddCommand("clear", delegate (object sender, CommandEventArgs e)
+            {
                 if (e.Args.Length > 0)
                 {
                     if (e.Args[0] == "commands")
@@ -88,10 +89,14 @@ namespace CommandLineParser
                         ClearCommands();
                     }
                     else {
-                        e.CommandOutput.AppendLine("Command 'clear " + e.Args[0] + "' not found.");
+                        if (commands.ContainsKey(e.Args[0]))
+                            commands.Remove(e.Args[0]);
+                        else
+                            e.CommandOutput.AppendLine("Command 'clear " + e.Args[0] + "' not found.");
                     }
                 }
                 else {
+                    Console.Clear();
 
                 }
             }, "Clears the console log or the command list.",
@@ -104,7 +109,7 @@ namespace CommandLineParser
 
 
         /// <summary>
-        /// <para>Adds a custom command to the game console.</para>
+        /// <para>Adds a custom command to the command line parser.</para>
         /// <para>It is possible to add more then one command with the same name.</para>
         /// </summary>
         /// <param name="command">The name of the command.</param>
@@ -144,7 +149,6 @@ namespace CommandLineParser
 
         /// <summary>
         /// <para>Adds a custom command to the game console.</para>
-        /// <para>It is possible to add more then one command with the same name.</para>
         /// </summary>
         /// <param name="command">The name of the command.</param>
         /// <param name="handler">The method that will be called if the command is executed.</param>
@@ -159,7 +163,7 @@ namespace CommandLineParser
         /// <example>
         /// Add a new command using a delegate:
         /// <code>
-        /// GameConsole console = new GameConsole(this, null);
+        /// CommandLineParser cmdParser = new CommandLineParser(this, null);
         /// console.AddCommand("hello", delegate(object sender, CommandEventArgs e)
         /// {
         ///     console.Log("Hello World!");
@@ -169,7 +173,7 @@ namespace CommandLineParser
         /// <example>
         /// Add a new command using a standalone method:
         /// <code>
-        /// GameConsole console = new GameConsole(this, null);
+        /// CommandLineParser cmdParser = new CommandLineParser(this, null);
         /// console.AddCommand("hello", testMethod);
         /// void testMethod(object sender, CommandEventArgs e)
         /// {
@@ -221,17 +225,26 @@ namespace CommandLineParser
                 string[] args = new string[splitInput.Length - 1];
                 Array.Copy(splitInput, 1, args, 0, args.Length);
                 command.Handler(this, new CommandEventArgs(command, args, commandOutput));
+
+                if (commandsHistory.Count >= maxCommandsInHistory)
+                    commandsHistory.Dequeue();
+                commandsHistory.Enqueue(input);
+
                 return true;
             }
             else
+            {
+                Log(string.Format("ERROR command {0} not found", input));
                 return false;
-          
+            }
+
+
         }
         private void Log(string message)
         {
             Console.WriteLine(OutputPrefix + message);
         }
-       
+
 
         /// <summary>
         /// Removes all commands.

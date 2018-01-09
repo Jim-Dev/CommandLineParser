@@ -20,9 +20,9 @@ namespace CommandsParserSample
             }, "Close the application");
             cmdParser.AddCommand("test", delegate (object sender, CommandEventArgs e)
             {
+                e.CommandOutput.AppendLine("TEST COMMAND OUTPUT");
+            }, "Test command");
 
-                e.CommandOutput.AppendLine("COMMAND OUTPUT");
-            }, "Close the application");
 
             isRunning = true;
 
