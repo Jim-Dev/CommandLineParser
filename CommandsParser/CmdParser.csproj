@@ -7,8 +7,8 @@
     <ProjectGuid>{6089DADE-86D5-468D-9302-71975EE52E61}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CommandsParser</RootNamespace>
-    <AssemblyName>CommandsParser</AssemblyName>
+    <RootNamespace>CmdParser</RootNamespace>
+    <AssemblyName>CmdParser</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -49,7 +49,9 @@
     <Compile Include="Command.cs" />
     <Compile Include="CommandEventArgs.cs" />
     <Compile Include="CommandsParser.cs" />
+    <Compile Include="BaseCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

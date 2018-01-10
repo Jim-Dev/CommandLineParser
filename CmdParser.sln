@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLineParser", "CommandsParser\CommandLineParser.csproj", "{6089DADE-86D5-468D-9302-71975EE52E61}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmdParser", "CommandsParser\CmdParser.csproj", "{6089DADE-86D5-468D-9302-71975EE52E61}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandsParserSample", "CommandsParserSample\CommandsParserSample.csproj", "{7C94B6DC-0AB3-4571-8CDD-5863A3D8E4B6}"
 EndProject

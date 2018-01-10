@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CommandLineParser
+namespace CmdParser
 {
     /// <summary>
     /// Represents the method that will handle an command event.

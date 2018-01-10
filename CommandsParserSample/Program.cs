@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using CommandLineParser;
+using CmdParser;
 
 namespace CommandsParserSample
 {
@@ -22,7 +22,6 @@ namespace CommandsParserSample
             {
                 e.CommandOutput.AppendLine("TEST COMMAND OUTPUT");
             }, "Test command");
-
 
             isRunning = true;
 
