@@ -34,7 +34,7 @@ namespace CmdParser.Commands
                     if (command.Aliases.Count > 0)
                     {
                         StringBuilder sb = new StringBuilder();
-                        sb.AppendFormat("{0} = ", command.Name);
+                        sb.AppendFormat("{0} => ", command.Name);
                         for (int i = 0; i < command.Aliases.Count; i++)
                         {
                             if (i== command.Aliases.Count-1)

@@ -9,26 +9,28 @@ namespace CmdParser
     public class BaseCommand
     {
         private const string DEFAULT_COMMAND_NAME = "UnnamedCommand";
-        private const string DEFAULT_COMMAND_HELP = "OverrideThisCommand";
-
-
+        private const string DEFAULT_COMMAND_DESCRIPTION = "NO_DESCRIPTION";
+        private readonly string[] DEFAULT_COMMAND_HELP = { "NO_HELP_DEFINED"};
         public BaseCommand()
         {
             Name = DEFAULT_COMMAND_NAME;
-            Description = DEFAULT_COMMAND_HELP;
+            Description = DEFAULT_COMMAND_DESCRIPTION;
             Aliases = new List<string>();
+            Help = DEFAULT_COMMAND_HELP;
         }
         public BaseCommand(string name)
         {
             Name = name;
-            Description = DEFAULT_COMMAND_HELP;
+            Description = DEFAULT_COMMAND_DESCRIPTION;
             Aliases = new List<string>();
+            Help = DEFAULT_COMMAND_HELP;
         }
         public BaseCommand(string name, string description)
         {
             Name = name;
             Description = description;
             Aliases = new List<string>();
+            Help = DEFAULT_COMMAND_HELP;
         }
         public BaseCommand(string name, string description, List<string> aliases)
         {
@@ -38,6 +40,7 @@ namespace CmdParser
                 Aliases = aliases;
             else
                 Aliases = new List<string>();
+            Help = DEFAULT_COMMAND_HELP;
         }
 
 
