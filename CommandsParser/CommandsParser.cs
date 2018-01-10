@@ -24,9 +24,10 @@ namespace CmdParser
         /// <summary>
         /// The dictionary to store all the commands and command event handlers.
         /// </summary>
-        private readonly Dictionary<string, Command> commands;
+        //private readonly Dictionary<string, Command> commands;
 
-
+        internal static List<BaseCommand> AvailableCommands;
+        //internal static List<BaseCommand> comms;
         public string OutputPrefix
         {
             get { return this.outputPrefix; }
@@ -36,7 +37,8 @@ namespace CmdParser
         public CommandsParser()
         {
             OutputPrefix = ">>> ";
-            commands = new Dictionary<string, Command>();
+            //commands = new Dictionary<string, Command>();
+            AvailableCommands = new List<BaseCommand>();
             commandOutput = new StringBuilder();
 
             commandsHistory = new Queue<string>();
@@ -44,9 +46,41 @@ namespace CmdParser
             AddDefaultCommands();
         }
 
+        public static BaseCommand GetCommand(string commandNameOrAlias)
+        {
+            BaseCommand output = GetCommandByName(commandNameOrAlias);
+            if (output != null)
+                return output;
+            else
+                return GetCommandByAlias(commandNameOrAlias);
+
+        }
+        public static BaseCommand GetCommandByName(string commandName)
+        {
+            foreach (BaseCommand command in AvailableCommands)
+            {
+                if (command.Name == commandName)
+                    return command;
+            }
+            return null;
+        }
+        public static BaseCommand GetCommandByAlias(string commandAlias)
+        {
+            foreach (BaseCommand command in AvailableCommands)
+            {
+                foreach (string cmdAlias in command.Aliases)
+                {
+                    if (cmdAlias == commandAlias)
+                        return command;
+                }
+            }
+            return null;
+        }
+
+
         private void AddDefaultCommands()
         {
-
+            /*
             AddCommand("help", delegate (object sender, CommandEventArgs e)
             {
                 IEnumerable<Command> commandsSelected;
@@ -104,10 +138,15 @@ namespace CmdParser
                 "clear commands - clears all registered commands.");
 
 
+            */
+
+            AddCommand(new Commands.ClearCommand());
+            AddCommand(new Commands.HelpCommand());
+            AddCommand(new Commands.AliasCommand());
 
         }
 
-
+        /*
         /// <summary>
         /// <para>Adds a custom command to the command line parser.</para>
         /// <para>It is possible to add more then one command with the same name.</para>
@@ -185,7 +224,23 @@ namespace CmdParser
         {
             AddCommand(command, handler, true, true, manual);
         }
+        */
+        public void AddCommand(BaseCommand command)
+        {
+            if (!AvailableCommands.Contains(command))
+                AvailableCommands.Add(command);
+        }
 
+        public void RemoveCommand(string commandName)
+        {
+            RemoveCommand(GetCommandByName(commandName));
+        }
+        public void RemoveCommand(BaseCommand command)
+        {
+            if (AvailableCommands.Contains(command))
+                AvailableCommands.Remove(command);
+        }
+        /*
         /// <summary>
         /// Removes the command(s) from the game console.
         /// </summary>
@@ -197,15 +252,53 @@ namespace CmdParser
                 commands.Remove(command);
             }
         }
+        */
+
+        /*
+    /// <summary>
+    /// <para>Executes a game console command.</para>
+    /// <para>This method will also be called if the user enters a command in the input field and hits enter.</para>
+    /// </summary>
+    /// <param name="input">The command to be executed.</param>
+    /// <param name="addToLog">True, if the input should be added to the log.</param>
+    /// <returns>Returns true if the execution was successful, otherwise false.</returns>
+    public bool Execute(string input)
+    {
+        commandOutput.Clear();
+        input = input.Trim();
+
+        if (input == string.Empty)
+        {
+            return false;
+        }
+
+        string[] splitInput = input.Split(new[] { ' ', '\t' },
+            StringSplitOptions.RemoveEmptyEntries);
+
+        if (commands.ContainsKey(splitInput[0]))
+        {
+            Command command = commands[splitInput[0]];
+            string[] args = new string[splitInput.Length - 1];
+            Array.Copy(splitInput, 1, args, 0, args.Length);
+            command.Handler(this, new CommandEventArgs(command, args, commandOutput));
+
+            if (commandsHistory.Count >= maxCommandsInHistory)
+                commandsHistory.Dequeue();
+            commandsHistory.Enqueue(input);
+
+            return true;
+        }
+        else
+        {
+            Log(string.Format("ERROR command {0} not found", input));
+            return false;
+        }
 
 
-        /// <summary>
-        /// <para>Executes a game console command.</para>
-        /// <para>This method will also be called if the user enters a command in the input field and hits enter.</para>
-        /// </summary>
-        /// <param name="input">The command to be executed.</param>
-        /// <param name="addToLog">True, if the input should be added to the log.</param>
-        /// <returns>Returns true if the execution was successful, otherwise false.</returns>
+    }
+
+    */
+
         public bool Execute(string input)
         {
             commandOutput.Clear();
@@ -219,6 +312,17 @@ namespace CmdParser
             string[] splitInput = input.Split(new[] { ' ', '\t' },
                 StringSplitOptions.RemoveEmptyEntries);
 
+            BaseCommand commandToExecute = GetCommand(splitInput[0]);
+            if (commandToExecute != null)
+            {
+                string[] args = new string[splitInput.Length - 1];
+                Array.Copy(splitInput, 1, args, 0, args.Length);
+                commandToExecute.Execute(args);
+                return true;
+            }
+            else
+                return false;
+            /*
             if (commands.ContainsKey(splitInput[0]))
             {
                 Command command = commands[splitInput[0]];
@@ -237,15 +341,16 @@ namespace CmdParser
                 Log(string.Format("ERROR command {0} not found", input));
                 return false;
             }
-
+            */
 
         }
+
         private void Log(string message)
         {
             Console.WriteLine(OutputPrefix + message);
         }
 
-
+        /*
         /// <summary>
         /// Removes all commands.
         /// </summary>
@@ -255,6 +360,7 @@ namespace CmdParser
             commands.Clear();
             Log("Commands cleared, " + count + " commands deleted.");
         }
+        */
 
     }
 }
