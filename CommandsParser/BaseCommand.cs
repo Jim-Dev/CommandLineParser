@@ -12,7 +12,17 @@ namespace CmdParser
         private const string DEFAULT_COMMAND_DESCRIPTION = "NO_DESCRIPTION";
         private readonly string[] DEFAULT_COMMAND_HELP = { "NO_HELP_DEFINED"};
 
-        protected StringBuilder commandOutput;
+        private StringBuilder commandOutput;
+
+        protected string LastExecutedOutput
+        {
+            get
+            {
+                string commandResult = this.commandOutput.ToString();
+                this.commandOutput.Clear();
+                return commandResult;
+            }
+        }
 
         protected void AppendToResult(string message)
         {
