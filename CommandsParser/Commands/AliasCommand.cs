@@ -42,18 +42,18 @@ namespace CmdParser.Commands
                             else
                                 sb.AppendFormat("{0},", command.Aliases[i]);
                         }
-                        
-                        Console.WriteLine(sb.ToString());
+
+                        AppendLineToResult(sb.ToString());
 
                     }
                     else
                     {
-                        Console.WriteLine("No aliases found for command {0}", arguments[0]);
+                        AppendLineToResult("No aliases found for command {0}", arguments[0]);
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Command {0} not found", arguments[0]);
+                    AppendLineToResult("Command {0} not found", arguments[0]);
                 }
             }
             else //List all aliases
@@ -72,12 +72,12 @@ namespace CmdParser.Commands
                         else
                             sb.AppendFormat("{0},", command.Aliases[i]);
                     }
-                    Console.WriteLine(string.Format("{0:000}: {1} => {2}", ++commandIndex, command.Name, sb.ToString()));
+                    AppendLineToResult(string.Format("{0:000}: {1} => {2}", ++commandIndex, command.Name, sb.ToString()));
 
 
                 }
             }
-            return string.Empty;
+            return LastExecutedOutput.ToString();
         }
     }
 }
