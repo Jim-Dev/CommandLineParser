@@ -15,7 +15,9 @@ namespace CmdParser
         {
             get
             {
-                return this.commandOutput.ToString();
+                string commandResult = this.commandOutput.ToString();
+                this.commandOutput.Clear();
+                return commandResult;
             }
         }
         private StringBuilder commandOutput;
@@ -100,7 +102,7 @@ namespace CmdParser
             if (AvailableCommands.Contains(command))
                 AvailableCommands.Remove(command);
         }
-       
+
 
 
         public bool Execute(string input)
@@ -121,19 +123,62 @@ namespace CmdParser
             {
                 string[] args = new string[splitInput.Length - 1];
                 Array.Copy(splitInput, 1, args, 0, args.Length);
-                commandToExecute.Execute(args);
+                commandOutput.Append(commandToExecute.Execute(args));
                 return true;
             }
             else
-                Console.WriteLine("ERROR, command \"{0}\", not found.", splitInput[0]);
-                return false;
+                commandOutput.AppendLine(string.Format("ERROR, command \"{0}\", not found.", splitInput[0]));
+            return false;
         }
 
+        private void Log(string message, bool appendPrefix)
+        {
+            if (appendPrefix)
+                Console.WriteLine(OutputPrefix + message);
+            else
+                Console.WriteLine(message);
+        }
         private void Log(string message)
         {
-            Console.WriteLine(OutputPrefix + message);
+            Log(message, true);
         }
 
+
+
+        private void AppendToResult(string message)
+        {
+            AppendToResult(message, false);
+        }
+        private void AppendLineToResult(string message)
+        {
+            AppendLineToResult(message, false);
+        }
+        private void AppendFormatToResult(string messageFormat, params object[] args)
+        {
+            AppendFormatToResult(messageFormat, false, args);
+        }
+
+        private void AppendToResult(string message, bool appendPrefix)
+        {
+            if (appendPrefix)
+                commandOutput.Append(OutputPrefix + message);
+            else
+                commandOutput.Append(message);
+        }
+        private void AppendLineToResult(string message, bool appendPrefix)
+        {
+            if (appendPrefix)
+                commandOutput.AppendLine(OutputPrefix + message);
+            else
+                commandOutput.AppendLine(message);
+        }
+        private void AppendFormatToResult(string messageFormat, bool appendPrefix, params object[] args)
+        {
+            if (appendPrefix)
+                commandOutput.AppendFormat(OutputPrefix + messageFormat, args);
+            else
+                commandOutput.AppendFormat(messageFormat, args);
+        }
 
         /// <summary>
         /// Removes all commands.

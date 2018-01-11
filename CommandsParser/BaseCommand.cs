@@ -11,12 +11,44 @@ namespace CmdParser
         private const string DEFAULT_COMMAND_NAME = "UnnamedCommand";
         private const string DEFAULT_COMMAND_DESCRIPTION = "NO_DESCRIPTION";
         private readonly string[] DEFAULT_COMMAND_HELP = { "NO_HELP_DEFINED"};
+
+        protected StringBuilder commandOutput;
+
+        protected void AppendToResult(string message)
+        {
+            commandOutput.Append(message);
+        }
+        protected void AppendToResult(string messageFormat, params object[] args)
+        {
+            commandOutput.AppendFormat(messageFormat, args);
+        }
+        protected void AppendLineToResult()
+        {
+            commandOutput.AppendLine();
+        }
+        protected void AppendLineToResult(string message)
+        {
+            commandOutput.AppendLine(message);
+        }
+        protected void AppendLineToResult(string message, params object[] args)
+        {
+            commandOutput.AppendLine(string.Format(message, args));
+        }
+        
+
+        protected void ClearOutputBuffer()
+        {
+            commandOutput.Clear();
+        }
+
         public BaseCommand()
         {
             Name = DEFAULT_COMMAND_NAME;
             Description = DEFAULT_COMMAND_DESCRIPTION;
             Aliases = new List<string>();
             Help = DEFAULT_COMMAND_HELP;
+            if (commandOutput == null)
+                commandOutput = new StringBuilder();
         }
         public BaseCommand(string name)
         {
@@ -24,6 +56,8 @@ namespace CmdParser
             Description = DEFAULT_COMMAND_DESCRIPTION;
             Aliases = new List<string>();
             Help = DEFAULT_COMMAND_HELP;
+            if (commandOutput == null)
+                commandOutput = new StringBuilder();
         }
         public BaseCommand(string name, string description)
         {
@@ -31,6 +65,8 @@ namespace CmdParser
             Description = description;
             Aliases = new List<string>();
             Help = DEFAULT_COMMAND_HELP;
+            if (commandOutput == null)
+                commandOutput = new StringBuilder();
         }
         public BaseCommand(string name, string description, List<string> aliases)
         {
@@ -41,6 +77,8 @@ namespace CmdParser
             else
                 Aliases = new List<string>();
             Help = DEFAULT_COMMAND_HELP;
+            if (commandOutput == null)
+                commandOutput = new StringBuilder();
         }
 
 
@@ -67,7 +105,8 @@ namespace CmdParser
         /// <returns></returns>
         public virtual string Execute(string[] arguments)
         {
-            return string.Empty;
+            ClearOutputBuffer();
+            return commandOutput.ToString();
         }
     }
 }
