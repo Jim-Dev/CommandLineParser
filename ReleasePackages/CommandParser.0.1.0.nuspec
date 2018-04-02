@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>CommandParser</id>
+        <version>0.1.0</version>
+        <title>CommandParser</title>
+        <authors>Jimmy Toledo</authors>
+        <owners>Jimmy Toledo</owners>
+        <licenseUrl>https://github.com/Jim-Dev/CommandLineParser/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/Jim-Dev/CommandLineParser</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>CommandLineParser as the name suggests, is a commands parser, maps a string as a command name and/or a set of aliases to an action to be excecuted, in the same fashion that a terminal/console works.</description>
+    </metadata>
+    <files>
+        <file src="..\CommandsParser\bin\Release\CmdParser.dll" target="lib\net45\CmdParser.dll" />
+    </files>
+</package>
