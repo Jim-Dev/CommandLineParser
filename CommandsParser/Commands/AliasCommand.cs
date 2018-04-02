@@ -19,7 +19,7 @@ namespace CmdParser.Commands
             get
             {
                 return new string[] {
-                    "If this command is called with no arguments, alias return a list of every command with all their respective aliases, if any.",
+                    "If this command is called with no arguments, alias return a list of every   with all their respective aliases, if any.",
                     "If this command is called with a command as arguments, shows the alias for that command, or the name of the master command if this is an alias of another command"};
             }
         }
