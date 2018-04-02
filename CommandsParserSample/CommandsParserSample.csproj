@@ -50,7 +50,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CommandsParser\CmdParser.csproj">
+    <ProjectReference Include="..\CmdParser\CmdParser.csproj">
       <Project>{6089dade-86d5-468d-9302-71975ee52e61}</Project>
       <Name>CmdParser</Name>
     </ProjectReference>
