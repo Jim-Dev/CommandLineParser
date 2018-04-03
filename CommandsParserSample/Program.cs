@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using CmdParser;
+using CommandsParser;
 namespace CommandsParserSample
 {
     class Program
@@ -12,16 +12,23 @@ namespace CommandsParserSample
         public static bool isRunning;
         static void Main(string[] args)
         {
-            CommandsParser cmdParser = new CommandsParser();
+            CmdParser cmdParser = new CmdParser();
             cmdParser.AddCommand(new CloseCommand());
+
+            cmdParser.OnOutputAvailable += StdOutput_OnOutputAvailable;
 
             isRunning = true;
 
             while (isRunning)
             {
                 cmdParser.Execute(Console.ReadLine());
-                Console.Write(cmdParser.LastExecutedOutput);
+                //Console.Write(cmdParser.LastExecutedOutput);
             }
+        }
+
+        private static void StdOutput_OnOutputAvailable(object sender, CommandsParser.Events.StdOutputAvailableEventArgs e)
+        {
+            Console.WriteLine(e.Output);
         }
     }
 

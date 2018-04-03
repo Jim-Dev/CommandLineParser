@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CmdParser.Commands
+namespace CommandsParser.Commands
 {
     public class ClearCommand:BaseCommand
     {

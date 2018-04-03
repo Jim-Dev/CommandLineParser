@@ -3,49 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static CommandsParser.StandardOutput;
 
-namespace CmdParser
+namespace CommandsParser
 {
-    public class CommandsParser
+    public class CmdParser
     {
         private Queue<string> commandsHistory;
         private int maxCommandsInHistory = 3;
 
-        public string LastExecutedOutput
-        {
-            get
-            {
-                string commandResult = this.commandOutput.ToString();
-                this.commandOutput.Clear();
-                return commandResult;
-            }
-        }
-        private StringBuilder commandOutput;
+        public event OutputAvailableEventHandler OnOutputAvailable;
 
-        private string outputPrefix;
-        /// <summary>
-        /// The dictionary to store all the commands and command event handlers.
-        /// </summary>
-        //private readonly Dictionary<string, Command> commands;
+        private StandardOutput stdOutput;
 
         internal static List<BaseCommand> AvailableCommands;
-        //internal static List<BaseCommand> comms;
-        public string OutputPrefix
-        {
-            get { return this.outputPrefix; }
-            set { this.outputPrefix = value; }
-        }
 
-        public CommandsParser()
+        public CmdParser()
         {
-            OutputPrefix = ">>> ";
-            //commands = new Dictionary<string, Command>();
+            stdOutput = new StandardOutput();
+            stdOutput.OnOutputAvailable += StdOutput_OnOutputAvailable;
+
             AvailableCommands = new List<BaseCommand>();
-            commandOutput = new StringBuilder();
 
             commandsHistory = new Queue<string>();
 
             AddDefaultCommands();
+        }
+
+        private void StdOutput_OnOutputAvailable(object sender, Events.StdOutputAvailableEventArgs e)
+        {
+            OnOutputAvailable?.Invoke(sender, e);
         }
 
         public static BaseCommand GetCommand(string commandNameOrAlias)
@@ -107,7 +94,6 @@ namespace CmdParser
 
         public bool Execute(string input)
         {
-            commandOutput.Clear();
             input = input.Trim();
 
             if (input == string.Empty)
@@ -123,61 +109,24 @@ namespace CmdParser
             {
                 string[] args = new string[splitInput.Length - 1];
                 Array.Copy(splitInput, 1, args, 0, args.Length);
-                commandOutput.Append(commandToExecute.Execute(args));
+                stdOutput.Echo(commandToExecute.Execute(args));
                 return true;
             }
             else
-                commandOutput.AppendLine(string.Format("ERROR, command \"{0}\", not found.", splitInput[0]));
+                stdOutput.EchoLine(string.Format("ERROR, command \"{0}\", not found.", splitInput[0]));
             return false;
         }
 
         private void Log(string message, bool appendPrefix)
         {
             if (appendPrefix)
-                Console.WriteLine(OutputPrefix + message);
+                Console.WriteLine(stdOutput.OutputPrefix + message);
             else
                 Console.WriteLine(message);
         }
         private void Log(string message)
         {
             Log(message, true);
-        }
-
-
-
-        private void AppendToResult(string message)
-        {
-            AppendToResult(message, false);
-        }
-        private void AppendLineToResult(string message)
-        {
-            AppendLineToResult(message, false);
-        }
-        private void AppendFormatToResult(string messageFormat, params object[] args)
-        {
-            AppendFormatToResult(messageFormat, false, args);
-        }
-
-        private void AppendToResult(string message, bool appendPrefix)
-        {
-            if (appendPrefix)
-                commandOutput.Append(OutputPrefix + message);
-            else
-                commandOutput.Append(message);
-        }
-        private void AppendLineToResult(string message, bool appendPrefix)
-        {
-            if (appendPrefix)
-                commandOutput.AppendLine(OutputPrefix + message);
-            else
-                commandOutput.AppendLine(message);
-        }
-        private void AppendFormatToResult(string messageFormat, bool appendPrefix, params object[] args)
-        {
-            if (appendPrefix)
-                commandOutput.AppendFormat(OutputPrefix + messageFormat, args);
-            else
-                commandOutput.AppendFormat(messageFormat, args);
         }
 
         /// <summary>

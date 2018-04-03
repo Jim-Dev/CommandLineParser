@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CmdParser
+namespace CommandsParser
 {
     public class BaseCommand
     {
         private const string DEFAULT_COMMAND_NAME = "UnnamedCommand";
         private const string DEFAULT_COMMAND_DESCRIPTION = "NO_DESCRIPTION";
-        private readonly string[] DEFAULT_COMMAND_HELP = { "NO_HELP_DEFINED"};
+        private readonly string[] DEFAULT_COMMAND_HELP = { "UNDEFINED_HELP"};
 
         private StringBuilder commandOutput;
 
