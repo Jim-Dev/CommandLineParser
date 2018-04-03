@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CmdParser.Commands
+namespace CommandsParser.Commands
 {
     public class HelpCommand : BaseCommand
     {
@@ -29,7 +29,7 @@ namespace CmdParser.Commands
         {
             if (arguments.Length > 0) //Show help for arg[0] command
             {
-                BaseCommand command = CommandsParser.GetCommand(arguments[0]);
+                BaseCommand command = CmdParser.GetCommand(arguments[0]);
                 if (command != null)
                 {
                     AppendLineToResult("Displaying help for command {0}", arguments[0]);
@@ -45,9 +45,9 @@ namespace CmdParser.Commands
             }
             else //List all commands
             {
-                AppendLineToResult("List of all " + CommandsParser.AvailableCommands.Count + " commands:");
+                AppendLineToResult("List of all " + CmdParser.AvailableCommands.Count + " commands:");
                 int commandIndex = 0;
-                foreach (BaseCommand command in CommandsParser.AvailableCommands)
+                foreach (BaseCommand command in CmdParser.AvailableCommands)
                 {
                     if (command != null)
                     {
