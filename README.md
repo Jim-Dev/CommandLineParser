@@ -11,10 +11,10 @@
 </p>
 
 ---
-CommandLineParser is a library that provides a way to easily parse commands from a string, basically this library maps a command (single word string) and optionally a set of aliases and arguments, to a delegate to execute an action.
-Also provides an easy way to implement help and usage information for any command.
+CommandLineParser is a library that provides a way to easily parse commands from a string, Basically this library maps a command (single-word string) and optionally a set of aliases and arguments, allowing a delegate to execute an action.
+Additionally, it provides an easy way to implement help and usage information for any command.
 
-Now compiled to target NetStandard 1.0!, to make it compatible with older version of .NetFramework (4.5).(*this could potentially change in the future*)
+Now compiled to target NetStandard 1.0!, to make it compatible with older version of .NetFramework (4.5).(*liable to change in the future*)
 
 # Instalation
 You can install this CommandLineParser using nuget
@@ -22,7 +22,7 @@ You can install this CommandLineParser using nuget
 Install-Package CommandParser
 ```
 # Usage
-First of all you need to create an instance of CmdParser, then optionally but highly encouraged, you could subscribe to the event OnOutputAvailable so you can process Output messages from the commands.
+First of all you must create an instance of CmdParser, then optionally. The subscription to the event OnOutputAvailable is optional but highly encouraged as a second step, as it allows processing of Output messages from the commands and command parser.
 
 Here is an example, from the sample project in this repository.
 
@@ -58,7 +58,7 @@ namespace CommandsParserSample
 
 # Custom commands
 
-If you want to implement your own custom command, you need to create a class and make it inherit from BaseCommand, and override it's methods
+If you want to implement your own custom command, you must create a class and make it inherit from BaseCommand, and override it's methods
 
 Here is an example from the sample provided in this repository
 
