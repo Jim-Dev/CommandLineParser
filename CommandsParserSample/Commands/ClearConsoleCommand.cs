@@ -1,17 +1,19 @@
-﻿using System;
+﻿using CommandsParser;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CommandsParser.Commands
+namespace CommandsParserSample.Commands
 {
-    public class ClearCommand:BaseCommand
+
+    public class ClearConsoleCommand : BaseCommand
     {
-        public ClearCommand()
+        public ClearConsoleCommand()
            : base("clear",
                  "Clears the console",
-                 new List<string>() {"cls"})
+                 new List<string>() { "cls" })
         { }
 
         public override string[] Help
@@ -29,4 +31,5 @@ namespace CommandsParser.Commands
             return string.Empty;
         }
     }
+
 }

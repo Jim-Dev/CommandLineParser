@@ -69,7 +69,6 @@ namespace CommandsParser
 
         private void AddDefaultCommands()
         {
-            AddCommand(new Commands.ClearCommand());
             AddCommand(new Commands.HelpCommand());
             AddCommand(new Commands.AliasCommand());
         }
@@ -116,7 +115,7 @@ namespace CommandsParser
                 stdOutput.EchoLine(string.Format("ERROR, command \"{0}\", not found.", splitInput[0]));
             return false;
         }
-
+        /*
         private void Log(string message, bool appendPrefix)
         {
             if (appendPrefix)
@@ -128,7 +127,7 @@ namespace CommandsParser
         {
             Log(message, true);
         }
-
+        */
         /// <summary>
         /// Removes all commands.
         /// </summary>
@@ -136,7 +135,7 @@ namespace CommandsParser
         {
             int count = AvailableCommands.Count;
             AvailableCommands.Clear();
-            Log("Commands cleared, " + count + " commands deleted.");
+            stdOutput.EchoLine("Commands cleared, " + count + " commands deleted.");
         }
 
 

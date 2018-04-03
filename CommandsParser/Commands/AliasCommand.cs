@@ -58,7 +58,7 @@ namespace CommandsParser.Commands
             }
             else //List all aliases
             {
-                Console.WriteLine("List of all " + CmdParser.AvailableCommands.Count + " commands:");
+                AppendLineToResult("List of all " + CmdParser.AvailableCommands.Count + " commands:");
                 int commandIndex = 0;
                 foreach (BaseCommand command in CmdParser.AvailableCommands)
                 {

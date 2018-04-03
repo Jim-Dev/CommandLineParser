@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using CommandsParser;
+using CommandsParserSample.Commands;
+
 namespace CommandsParserSample
 {
     class Program
@@ -14,6 +16,7 @@ namespace CommandsParserSample
         {
             CmdParser cmdParser = new CmdParser();
             cmdParser.AddCommand(new CloseCommand());
+            cmdParser.AddCommand(new ClearConsoleCommand());
 
             cmdParser.OnOutputAvailable += StdOutput_OnOutputAvailable;
 
@@ -22,7 +25,6 @@ namespace CommandsParserSample
             while (isRunning)
             {
                 cmdParser.Execute(Console.ReadLine());
-                //Console.Write(cmdParser.LastExecutedOutput);
             }
         }
 
@@ -32,27 +34,5 @@ namespace CommandsParserSample
         }
     }
 
-    public class CloseCommand : BaseCommand
-    {
-        public CloseCommand()
-           : base("close",
-                 "Close the application",
-                 new List<string>() {"exit","shutdown"})
-        { }
-
-        public override string[] Help
-        {
-            get
-            {
-                return new string[] {
-                    "Close the console application"};
-            }
-        }
-
-        public override string Execute(string[] arguments)
-        {
-            Program.isRunning = false;
-            return string.Empty;
-        }
-    }
+    
 }
