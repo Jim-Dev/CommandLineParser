@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommandsParser.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,12 +15,15 @@ namespace CommandsParser
 
         private StringBuilder commandOutput;
 
-        protected string LastExecutedOutput
+        public delegate void OutputAvailableEventHandler(object sender, OutputAvailableEventArgs e);
+        public event OutputAvailableEventHandler OutputAvailable;
+
+        protected string CommandOutput
         {
             get
             {
-                string commandResult = this.commandOutput.ToString();
-                this.commandOutput.Clear();
+                string commandResult = GetOutputBuffer();
+                ClearOutputBuffer();
                 return commandResult;
             }
         }
@@ -49,6 +53,16 @@ namespace CommandsParser
         protected void ClearOutputBuffer()
         {
             commandOutput.Clear();
+        }
+        public string GetOutputBuffer()
+        {
+            if (commandOutput != null)
+                return commandOutput.ToString();
+            else
+            {
+                commandOutput = new StringBuilder();
+                return string.Empty;
+            }
         }
 
         public BaseCommand()
@@ -115,8 +129,14 @@ namespace CommandsParser
         /// <returns></returns>
         public virtual string Execute(string[] arguments)
         {
-            ClearOutputBuffer();
-            return commandOutput.ToString();
+            string commandOutput = CommandOutput;
+            OnOutputAvailable(new OutputAvailableEventArgs(Name, commandOutput));
+            return commandOutput;
+        }
+
+        public void OnOutputAvailable(OutputAvailableEventArgs eventArgs)
+        {
+            OutputAvailable?.Invoke(this, eventArgs );
         }
     }
 }

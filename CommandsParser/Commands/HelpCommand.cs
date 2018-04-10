@@ -55,7 +55,9 @@ namespace CommandsParser.Commands
                     }
                 }
             }
-            return LastExecutedOutput.ToString();
+            string output = CommandOutput;
+            OnOutputAvailable(new Events.OutputAvailableEventArgs(Name, output));
+            return output;
         }
     }
 }

@@ -7,8 +7,10 @@ namespace CommandsParser
 {
     public class StandardOutput
     {
-        public delegate void OutputAvailableEventHandler(object sender, StdOutputAvailableEventArgs e);
+        public delegate void OutputAvailableEventHandler(object sender, OutputAvailableEventArgs e);
         public event OutputAvailableEventHandler OnOutputAvailable;
+
+        public const string DEFAULT_UNSPECIFIED_COMMAND = "UnspecifiedCommand";
 
         public string Output
         {
@@ -72,23 +74,38 @@ namespace CommandsParser
 
         public void Echo(string message)//Append (output) and Flush
         {
-            AppendOutput(message);
-            FlushOutput();
+            Echo(message, DEFAULT_UNSPECIFIED_COMMAND);
         }
         public void EchoLine(string message)//Append (output) and Flush
         {
-            AppendOutputLine(message);
-            FlushOutput();
+            EchoLine(message, DEFAULT_UNSPECIFIED_COMMAND);
         }
         public void EchoFormat(string format, params object[] args)//Append (output) and Flush
         {
-            AppendOutputFormat(format, args);
-            FlushOutput();
+            EchoFormat(format, DEFAULT_UNSPECIFIED_COMMAND, args);
         }
-        public void FlushOutput()
+
+        public void Echo(string message, string commandSender)//Append (output) and Flush
         {
-            OnOutputAvailable?.Invoke(this, new StdOutputAvailableEventArgs(commandOutput.ToString()));
+            AppendOutput(message);
+            FlushOutput(commandSender);
+        }
+        public void EchoLine(string message, string commandSender)//Append (output) and Flush
+        {
+            AppendOutputLine(message);
+            FlushOutput(commandSender);
+        }
+        public void EchoFormat(string format, string commandSender, params object[] args)//Append (output) and Flush
+        {
+            AppendOutputFormat(format, args);
+            FlushOutput(commandSender);
+        }
+        public void FlushOutput(string commandSender)
+        {
+            string cmdResult = commandOutput.ToString();
             commandOutput.Clear();
+            OnOutputAvailable?.Invoke(this, new OutputAvailableEventArgs(cmdResult, commandSender));
+            
         }
 
         public StandardOutput()
