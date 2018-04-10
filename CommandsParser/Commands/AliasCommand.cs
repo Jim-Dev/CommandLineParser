@@ -77,8 +77,9 @@ namespace CommandsParser.Commands
 
                 }
             }
-
-            return CommandOutput;
+            string output = CommandOutput;
+            OnOutputAvailable(new Events.OutputAvailableEventArgs(Name, output));
+            return output;
         }
     }
 }

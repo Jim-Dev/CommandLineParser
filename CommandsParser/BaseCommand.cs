@@ -22,7 +22,7 @@ namespace CommandsParser
         {
             get
             {
-                string commandResult = this.commandOutput.ToString();
+                string commandResult = GetOutputBuffer();
                 ClearOutputBuffer();
                 return commandResult;
             }
@@ -53,6 +53,16 @@ namespace CommandsParser
         protected void ClearOutputBuffer()
         {
             commandOutput.Clear();
+        }
+        public string GetOutputBuffer()
+        {
+            if (commandOutput != null)
+                return commandOutput.ToString();
+            else
+            {
+                commandOutput = new StringBuilder();
+                return string.Empty;
+            }
         }
 
         public BaseCommand()
