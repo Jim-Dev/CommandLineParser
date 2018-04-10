@@ -55,7 +55,7 @@ namespace CommandsParser.Commands
                     }
                 }
             }
-            return LastExecutedOutput.ToString();
+            return CommandOutput;
         }
     }
 }

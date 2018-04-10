@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CommandsParser.Commands
 {
-    class AliasCommand:BaseCommand
+    public class AliasCommand:BaseCommand
     {
         public AliasCommand()
            : base("alias",
@@ -77,7 +77,8 @@ namespace CommandsParser.Commands
 
                 }
             }
-            return LastExecutedOutput.ToString();
+
+            return CommandOutput;
         }
     }
 }

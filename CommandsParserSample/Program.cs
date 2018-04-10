@@ -12,11 +12,12 @@ namespace CommandsParserSample
     class Program
     {
         public static bool isRunning;
+        static CmdParser cmdParser = new CmdParser();
         static void Main(string[] args)
         {
-            CmdParser cmdParser = new CmdParser();
-            cmdParser.AddCommand(new CloseCommand());
+
             cmdParser.AddCommand(new ClearConsoleCommand());
+            cmdParser.AddCommand(new CloseCommand());
 
             cmdParser.OnOutputAvailable += StdOutput_OnOutputAvailable;
 
@@ -28,7 +29,7 @@ namespace CommandsParserSample
             }
         }
 
-        private static void StdOutput_OnOutputAvailable(object sender, CommandsParser.Events.StdOutputAvailableEventArgs e)
+        private static void StdOutput_OnOutputAvailable(object sender, CommandsParser.Events.OutputAvailableEventArgs e)
         {
             Console.WriteLine(e.Output);
         }

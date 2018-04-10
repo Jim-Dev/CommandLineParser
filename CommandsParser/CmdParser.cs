@@ -21,7 +21,7 @@ namespace CommandsParser
         public CmdParser()
         {
             stdOutput = new StandardOutput();
-            stdOutput.OnOutputAvailable += StdOutput_OnOutputAvailable;
+            stdOutput.OnOutputAvailable += Output_OnOutputAvailable;
 
             AvailableCommands = new List<BaseCommand>();
 
@@ -30,7 +30,7 @@ namespace CommandsParser
             AddDefaultCommands();
         }
 
-        private void StdOutput_OnOutputAvailable(object sender, Events.StdOutputAvailableEventArgs e)
+        private void Output_OnOutputAvailable(object sender, Events.OutputAvailableEventArgs e)
         {
             OnOutputAvailable?.Invoke(sender, e);
         }
@@ -108,26 +108,14 @@ namespace CommandsParser
             {
                 string[] args = new string[splitInput.Length - 1];
                 Array.Copy(splitInput, 1, args, 0, args.Length);
-                stdOutput.Echo(commandToExecute.Execute(args));
+                stdOutput.Echo(commandToExecute.Execute(args), commandToExecute.Name);
                 return true;
             }
             else
-                stdOutput.EchoLine(string.Format("ERROR, command \"{0}\", not found.", splitInput[0]));
+                stdOutput.EchoLine(string.Format("ERROR, command \"{0}\", not found.", commandToExecute.Name), commandToExecute.Name);
             return false;
         }
-        /*
-        private void Log(string message, bool appendPrefix)
-        {
-            if (appendPrefix)
-                Console.WriteLine(stdOutput.OutputPrefix + message);
-            else
-                Console.WriteLine(message);
-        }
-        private void Log(string message)
-        {
-            Log(message, true);
-        }
-        */
+
         /// <summary>
         /// Removes all commands.
         /// </summary>

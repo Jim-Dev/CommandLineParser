@@ -28,6 +28,7 @@ namespace CommandsParserSample.Commands
         public override string Execute(string[] arguments)
         {
             Console.Clear();
+            base.Execute(arguments);
             return string.Empty;
         }
     }
