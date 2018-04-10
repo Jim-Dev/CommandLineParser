@@ -130,7 +130,7 @@ namespace CommandsParser
         public virtual string Execute(string[] arguments)
         {
             string commandOutput = CommandOutput;
-            OnOutputAvailable(new OutputAvailableEventArgs(Name, commandOutput));
+            OnOutputAvailable(new OutputAvailableEventArgs(commandOutput, Name));
             return commandOutput;
         }
 
