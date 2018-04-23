@@ -45,25 +45,21 @@ namespace CommandsParser.Commands
                                 sb.AppendFormat("{0},", command.Aliases[i]);
                         }
                         CmdParser.StdOutput.EchoLine(sb.ToString(),Name);
-                        //AppendLineToResult(sb.ToString());
 
                     }
                     else
                     {
                         CmdParser.StdOutput.EchoLineFormat("No aliases found for command {0}", Name,arguments[0]);
-                        //AppendLineToResult("No aliases found for command {0}", arguments[0]);
                     }
                 }
                 else
                 {
                     CmdParser.StdOutput.EchoLineFormat("Command {0} not found", Name, arguments[0]);
-                    //AppendLineToResult("Command {0} not found", arguments[0]);
                 }
             }
             else //List all aliases
             {
                 CmdParser.StdOutput.EchoLineFormat("List of all {0} commands",Name, CmdParser.AvailableCommands.Count);
-                //AppendLineToResult("List of all " + CmdParser.AvailableCommands.Count + " commands:");
                 int commandIndex = 0;
                 foreach (BaseCommand command in CmdParser.AvailableCommands)
                 {
@@ -78,17 +74,8 @@ namespace CommandsParser.Commands
                             sb.AppendFormat("{0},", command.Aliases[i]);
                     }
                     CmdParser.StdOutput.EchoLineFormat("{0:000}: {1} => {2}", Name, ++commandIndex, command.Name, sb.ToString());
-                    //CmdParser.StdOutput.EchoLine(string.Format("{0:000}: {1} => {2}", ++commandIndex, command.Name, sb.ToString()), Name);
-                    //AppendLineToResult(string.Format("{0:000}: {1} => {2}", ++commandIndex, command.Name, sb.ToString()));
-
-
                 }
             }
-            /*
-            string output = CommandOutput;
-            OnOutputAvailable(new Events.OutputAvailableEventArgs(Name, output));
-            return output;
-            */
         }
     }
 }

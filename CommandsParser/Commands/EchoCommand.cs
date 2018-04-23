@@ -27,7 +27,6 @@ namespace CommandsParser.Commands
         {
             string output= string.Join(" ", arguments);
             base.CmdParser.StdOutput.EchoLine(output);
-            //return output;
         }
     }
 }

@@ -35,23 +35,19 @@ namespace CommandsParser.Commands
                 if (command != null)
                 {
                     CmdParser.StdOutput.EchoLineFormat("Displaying help for command {0}",Name, arguments[0]);
-                    //AppendLineToResult("Displaying help for command {0}", arguments[0]);
                     for (int i = 0; i < command.Help.Length; i++)
                     {
                         CmdParser.StdOutput.EchoLine(command.Help[i]);
-                        //AppendLineToResult(command.Help[i]);
                     }
                 }
                 else
                 {
                     CmdParser.StdOutput.EchoLineFormat("Command {0} not found", Name, arguments[0]);
-                    //AppendLineToResult("Command {0} not found", arguments[0]);
                 }
             }
             else //List all commands
             {
                 CmdParser.StdOutput.EchoLineFormat("List of all {0} commands", Name, CmdParser.AvailableCommands.Count);
-                //AppendLineToResult("List of all " + CmdParser.AvailableCommands.Count + " commands:");
 
                 int commandIndex = 0;
                 foreach (BaseCommand command in CmdParser.AvailableCommands)
@@ -59,15 +55,9 @@ namespace CommandsParser.Commands
                     if (command != null)
                     {
                         CmdParser.StdOutput.EchoLineFormat("{0:000}: {1} => {2}", Name, ++commandIndex, command.Name, command.Description);
-                        //AppendLineToResult(string.Format("{0:000}: {1} => {2}", ++commandIndex, command.Name, command.Description));
                     }
                 }
             }
-            /*
-            string output = CommandOutput;
-            OnOutputAvailable(new Events.OutputAvailableEventArgs(Name, output));
-            return output;
-            */
         }
     }
 }

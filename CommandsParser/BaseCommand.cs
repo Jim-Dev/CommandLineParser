@@ -13,62 +13,8 @@ namespace CommandsParser
         private const string DEFAULT_COMMAND_DESCRIPTION = "NO_DESCRIPTION";
         private readonly string[] DEFAULT_COMMAND_HELP = { "UNDEFINED_HELP"};
 
-        //private StringBuilder commandOutput;
-
-        //public delegate void OutputAvailableEventHandler(object sender, OutputAvailableEventArgs e);
-        //public event OutputAvailableEventHandler OutputAvailable;
-
         protected CmdParser CmdParser;
 
-        /*
-        protected string CommandOutput
-        {
-            get
-            {
-                string commandResult = GetOutputBuffer();
-                ClearOutputBuffer();
-                return commandResult;
-            }
-        }
-        */
-        /*
-        protected void AppendToResult(string message)
-        {
-            commandOutput.Append(message);
-        }
-        protected void AppendToResult(string messageFormat, params object[] args)
-        {
-            commandOutput.AppendFormat(messageFormat, args);
-        }
-        protected void AppendLineToResult()
-        {
-            commandOutput.AppendLine();
-        }
-        protected void AppendLineToResult(string message)
-        {
-            commandOutput.AppendLine(message);
-        }
-        protected void AppendLineToResult(string message, params object[] args)
-        {
-            commandOutput.AppendLine(string.Format(message, args));
-        }
-        
-
-        protected void ClearOutputBuffer()
-        {
-            commandOutput.Clear();
-        }
-        public string GetOutputBuffer()
-        {
-            if (commandOutput != null)
-                return commandOutput.ToString();
-            else
-            {
-                commandOutput = new StringBuilder();
-                return string.Empty;
-            }
-        }
-        */
         public BaseCommand(CmdParser cmdParser, string name, string description, List<string> aliases, string[] commandHelp)
         {
             this.CmdParser = cmdParser;
@@ -117,18 +63,7 @@ namespace CommandsParser
         /// <param name="arguments"></param>
         /// <returns></returns>
         public virtual void Execute(string[] arguments)
-        {
-            /*
-            string commandOutput = CommandOutput;
-            OnOutputAvailable(new OutputAvailableEventArgs(commandOutput, Name));
-            return commandOutput;
-            */
-        }
-        /*
-        public void OnOutputAvailable(OutputAvailableEventArgs eventArgs)
-        {
-            OutputAvailable?.Invoke(this, eventArgs );
-        }
-        */
+        {}
+       
     }
 }
