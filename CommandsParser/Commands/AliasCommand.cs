@@ -8,9 +8,11 @@ namespace CommandsParser.Commands
 {
     public class AliasCommand:BaseCommand
     {
-        public AliasCommand()
-           : base("alias",
+        public AliasCommand(CmdParser cmdParser)
+           : base(cmdParser,
+                 "alias",
                  "Display the list of all aliases for a given command or show if a command is an alias of another command",
+                 null,
                  null)
         { }
 
@@ -24,7 +26,7 @@ namespace CommandsParser.Commands
             }
         }
 
-        public override string Execute(string[] arguments)
+        public override void Execute(string[] arguments)
         {
             if (arguments.Length > 0) //Show help for arg[0] command
             {
@@ -42,23 +44,22 @@ namespace CommandsParser.Commands
                             else
                                 sb.AppendFormat("{0},", command.Aliases[i]);
                         }
-
-                        AppendLineToResult(sb.ToString());
+                        CmdParser.StdOutput.AppendOutputLine(sb.ToString());
 
                     }
                     else
                     {
-                        AppendLineToResult("No aliases found for command {0}", arguments[0]);
+                        CmdParser.StdOutput.AppendOutputLineFormat("No aliases found for command {0}",arguments[0]);
                     }
                 }
                 else
                 {
-                    AppendLineToResult("Command {0} not found", arguments[0]);
+                    CmdParser.StdOutput.AppendOutputLineFormat("Command {0} not found", arguments[0]);
                 }
             }
             else //List all aliases
             {
-                AppendLineToResult("List of all " + CmdParser.AvailableCommands.Count + " commands:");
+                CmdParser.StdOutput.AppendOutputLineFormat("List of all {0} commands", CmdParser.AvailableCommands.Count);
                 int commandIndex = 0;
                 foreach (BaseCommand command in CmdParser.AvailableCommands)
                 {
@@ -72,14 +73,9 @@ namespace CommandsParser.Commands
                         else
                             sb.AppendFormat("{0},", command.Aliases[i]);
                     }
-                    AppendLineToResult(string.Format("{0:000}: {1} => {2}", ++commandIndex, command.Name, sb.ToString()));
-
-
+                    CmdParser.StdOutput.AppendOutputLineFormat("{0:000}: {1} => {2}", ++commandIndex, command.Name, sb.ToString());
                 }
             }
-            string output = CommandOutput;
-            OnOutputAvailable(new Events.OutputAvailableEventArgs(Name, output));
-            return output;
         }
     }
 }

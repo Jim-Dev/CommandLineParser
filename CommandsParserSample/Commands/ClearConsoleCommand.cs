@@ -10,10 +10,12 @@ namespace CommandsParserSample.Commands
 
     public class ClearConsoleCommand : BaseCommand
     {
-        public ClearConsoleCommand()
-           : base("clear",
+        public ClearConsoleCommand(CmdParser cmdParser)
+           : base(cmdParser,
+                 "clear",
                  "Clears the console",
-                 new List<string>() { "cls" })
+                 new List<string>() { "cls" },
+                 null)
         { }
 
         public override string[] Help
@@ -25,12 +27,9 @@ namespace CommandsParserSample.Commands
             }
         }
 
-        public override string Execute(string[] arguments)
+        public override void Execute(string[] arguments)
         {
             Console.Clear();
-            string output = CommandOutput;
-            OnOutputAvailable(new CommandsParser.Events.OutputAvailableEventArgs(Name, output));
-            return output;
         }
     }
 

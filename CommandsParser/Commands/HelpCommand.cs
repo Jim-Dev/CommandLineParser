@@ -8,10 +8,12 @@ namespace CommandsParser.Commands
 {
     public class HelpCommand : BaseCommand
     {
-        public HelpCommand()
-           : base("help",
+        public HelpCommand(CmdParser cmdParser)
+           : base(cmdParser,
+                 "help",
                  "Displays the list of commands, or the help file for a specified command",
-                 new List<string>() { "man" })
+                 new List<string>() { "man" },
+                 null)
         { }
 
         public override string[] Help
@@ -25,39 +27,37 @@ namespace CommandsParser.Commands
             }
         }
 
-        public override string Execute(string[] arguments)
+        public override void Execute(string[] arguments)
         {
             if (arguments.Length > 0) //Show help for arg[0] command
             {
                 BaseCommand command = CmdParser.GetCommand(arguments[0]);
                 if (command != null)
                 {
-                    AppendLineToResult("Displaying help for command {0}", arguments[0]);
+                    CmdParser.StdOutput.AppendOutputLineFormat("Displaying help for command {0}", arguments[0]);
                     for (int i = 0; i < command.Help.Length; i++)
                     {
-                        AppendLineToResult(command.Help[i]);
+                        CmdParser.StdOutput.AppendOutputLine(command.Help[i]);
                     }
                 }
                 else
                 {
-                    AppendLineToResult("Command {0} not found", arguments[0]);
+                    CmdParser.StdOutput.AppendOutputLineFormat("Command {0} not found", arguments[0]);
                 }
             }
             else //List all commands
             {
-                AppendLineToResult("List of all " + CmdParser.AvailableCommands.Count + " commands:");
+                CmdParser.StdOutput.AppendOutputLineFormat("List of all {0} commands", CmdParser.AvailableCommands.Count);
+
                 int commandIndex = 0;
                 foreach (BaseCommand command in CmdParser.AvailableCommands)
                 {
                     if (command != null)
                     {
-                        AppendLineToResult(string.Format("{0:000}: {1} => {2}", ++commandIndex, command.Name, command.Description));
+                        CmdParser.StdOutput.AppendOutputLineFormat("{0:000}: {1} => {2}", ++commandIndex, command.Name, command.Description);
                     }
                 }
             }
-            string output = CommandOutput;
-            OnOutputAvailable(new Events.OutputAvailableEventArgs(Name, output));
-            return output;
         }
     }
 }
