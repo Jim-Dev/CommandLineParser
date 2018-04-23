@@ -15,6 +15,9 @@ namespace CommandsParser
 
         protected CmdParser CmdParser;
 
+        public delegate void CommandExecutedEventHandler(object sender, CommandExecutedEventArgs e);
+        public event CommandExecutedEventHandler CommandExecuted;
+
         public BaseCommand(CmdParser cmdParser, string name, string description, List<string> aliases, string[] commandHelp)
         {
             this.CmdParser = cmdParser;
@@ -64,6 +67,10 @@ namespace CommandsParser
         /// <returns></returns>
         public virtual void Execute(string[] arguments)
         {}
-       
+
+        public void OnCommandExecuted(CommandExecutedEventArgs eventArgs)
+        {
+            CommandExecuted?.Invoke(this, eventArgs);
+        }
     }
 }

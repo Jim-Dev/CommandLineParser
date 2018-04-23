@@ -44,22 +44,22 @@ namespace CommandsParser.Commands
                             else
                                 sb.AppendFormat("{0},", command.Aliases[i]);
                         }
-                        CmdParser.StdOutput.EchoLine(sb.ToString(),Name);
+                        CmdParser.StdOutput.AppendOutputLine(sb.ToString());
 
                     }
                     else
                     {
-                        CmdParser.StdOutput.EchoLineFormat("No aliases found for command {0}", Name,arguments[0]);
+                        CmdParser.StdOutput.AppendOutputLineFormat("No aliases found for command {0}",arguments[0]);
                     }
                 }
                 else
                 {
-                    CmdParser.StdOutput.EchoLineFormat("Command {0} not found", Name, arguments[0]);
+                    CmdParser.StdOutput.AppendOutputLineFormat("Command {0} not found", arguments[0]);
                 }
             }
             else //List all aliases
             {
-                CmdParser.StdOutput.EchoLineFormat("List of all {0} commands",Name, CmdParser.AvailableCommands.Count);
+                CmdParser.StdOutput.AppendOutputLineFormat("List of all {0} commands", CmdParser.AvailableCommands.Count);
                 int commandIndex = 0;
                 foreach (BaseCommand command in CmdParser.AvailableCommands)
                 {
@@ -73,7 +73,7 @@ namespace CommandsParser.Commands
                         else
                             sb.AppendFormat("{0},", command.Aliases[i]);
                     }
-                    CmdParser.StdOutput.EchoLineFormat("{0:000}: {1} => {2}", Name, ++commandIndex, command.Name, sb.ToString());
+                    CmdParser.StdOutput.AppendOutputLineFormat("{0:000}: {1} => {2}", ++commandIndex, command.Name, sb.ToString());
                 }
             }
         }

@@ -34,27 +34,27 @@ namespace CommandsParser.Commands
                 BaseCommand command = CmdParser.GetCommand(arguments[0]);
                 if (command != null)
                 {
-                    CmdParser.StdOutput.EchoLineFormat("Displaying help for command {0}",Name, arguments[0]);
+                    CmdParser.StdOutput.AppendOutputLineFormat("Displaying help for command {0}", arguments[0]);
                     for (int i = 0; i < command.Help.Length; i++)
                     {
-                        CmdParser.StdOutput.EchoLine(command.Help[i]);
+                        CmdParser.StdOutput.AppendOutputLine(command.Help[i]);
                     }
                 }
                 else
                 {
-                    CmdParser.StdOutput.EchoLineFormat("Command {0} not found", Name, arguments[0]);
+                    CmdParser.StdOutput.AppendOutputLineFormat("Command {0} not found", arguments[0]);
                 }
             }
             else //List all commands
             {
-                CmdParser.StdOutput.EchoLineFormat("List of all {0} commands", Name, CmdParser.AvailableCommands.Count);
+                CmdParser.StdOutput.AppendOutputLineFormat("List of all {0} commands", CmdParser.AvailableCommands.Count);
 
                 int commandIndex = 0;
                 foreach (BaseCommand command in CmdParser.AvailableCommands)
                 {
                     if (command != null)
                     {
-                        CmdParser.StdOutput.EchoLineFormat("{0:000}: {1} => {2}", Name, ++commandIndex, command.Name, command.Description);
+                        CmdParser.StdOutput.AppendOutputLineFormat("{0:000}: {1} => {2}", ++commandIndex, command.Name, command.Description);
                     }
                 }
             }

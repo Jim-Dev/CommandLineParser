@@ -26,7 +26,7 @@ namespace CommandsParser.Commands
         public override void Execute(string[] arguments)
         {
             string output= string.Join(" ", arguments);
-            base.CmdParser.StdOutput.EchoLine(output);
+            base.CmdParser.StdOutput.AppendOutputLine(output);
         }
     }
 }
