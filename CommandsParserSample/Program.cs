@@ -32,7 +32,8 @@ namespace CommandsParserSample
 
         private static void StdOutput_OnOutputAvailable(object sender, CommandsParser.Events.OutputAvailableEventArgs e)
         {
-            Console.Write(e.Output);
+            if (e.Output.Trim() != CmdParser.COMMAND_START_OUTPUT && e.Output.Trim() != CmdParser.COMMAND_FINISH_OUTPUT)
+                Console.Write(e.Output);
         }
     }
 

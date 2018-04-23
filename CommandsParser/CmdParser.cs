@@ -9,6 +9,9 @@ namespace CommandsParser
 {
     public class CmdParser
     {
+        public const string COMMAND_START_OUTPUT = "<COMMAND_START>";
+        public const string COMMAND_FINISH_OUTPUT = "<COMMAND_FINISH>";
+
         private Queue<string> commandsHistory;
         private int maxCommandsInHistory = 3;
 
@@ -117,7 +120,11 @@ namespace CommandsParser
                 {
                     string[] args = new string[splitInput.Length - 1];
                     Array.Copy(splitInput, 1, args, 0, args.Length);
+
+                    StdOutput.EchoLine(COMMAND_START_OUTPUT, commandToExecute.Name);
                     commandToExecute.Execute(args);
+                    StdOutput.EchoLine(COMMAND_FINISH_OUTPUT, commandToExecute.Name);
+
                     return true;
                 }
                 else
