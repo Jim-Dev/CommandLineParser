@@ -27,12 +27,12 @@ namespace CommandsParserSample.Commands
             }
         }
 
-        public override string Execute(string[] arguments)
+        public override void Execute(string[] arguments)
         {
             Console.Clear();
-            string output = CommandOutput;
-            OnOutputAvailable(new CommandsParser.Events.OutputAvailableEventArgs(Name, output));
-            return output;
+            //string output = CommandOutput;
+            //OnOutputAvailable(new CommandsParser.Events.OutputAvailableEventArgs(Name, output));
+            //return output;
         }
     }
 

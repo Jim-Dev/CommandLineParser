@@ -32,7 +32,7 @@ namespace CommandsParserSample
 
         private static void StdOutput_OnOutputAvailable(object sender, CommandsParser.Events.OutputAvailableEventArgs e)
         {
-            Console.WriteLine(e.Output);
+            Console.Write(e.Output);
         }
     }
 

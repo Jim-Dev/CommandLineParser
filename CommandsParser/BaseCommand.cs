@@ -13,13 +13,14 @@ namespace CommandsParser
         private const string DEFAULT_COMMAND_DESCRIPTION = "NO_DESCRIPTION";
         private readonly string[] DEFAULT_COMMAND_HELP = { "UNDEFINED_HELP"};
 
-        private StringBuilder commandOutput;
+        //private StringBuilder commandOutput;
 
-        public delegate void OutputAvailableEventHandler(object sender, OutputAvailableEventArgs e);
-        public event OutputAvailableEventHandler OutputAvailable;
+        //public delegate void OutputAvailableEventHandler(object sender, OutputAvailableEventArgs e);
+        //public event OutputAvailableEventHandler OutputAvailable;
 
         protected CmdParser CmdParser;
 
+        /*
         protected string CommandOutput
         {
             get
@@ -29,7 +30,8 @@ namespace CommandsParser
                 return commandResult;
             }
         }
-
+        */
+        /*
         protected void AppendToResult(string message)
         {
             commandOutput.Append(message);
@@ -66,7 +68,7 @@ namespace CommandsParser
                 return string.Empty;
             }
         }
-
+        */
         public BaseCommand(CmdParser cmdParser, string name, string description, List<string> aliases, string[] commandHelp)
         {
             this.CmdParser = cmdParser;
@@ -90,9 +92,6 @@ namespace CommandsParser
                 Help = commandHelp;
             else
                 Help = DEFAULT_COMMAND_HELP;
-
-            if (commandOutput == null)
-                commandOutput = new StringBuilder();
         }
 
 
@@ -117,16 +116,19 @@ namespace CommandsParser
         /// </summary>
         /// <param name="arguments"></param>
         /// <returns></returns>
-        public virtual string Execute(string[] arguments)
+        public virtual void Execute(string[] arguments)
         {
+            /*
             string commandOutput = CommandOutput;
             OnOutputAvailable(new OutputAvailableEventArgs(commandOutput, Name));
             return commandOutput;
+            */
         }
-
+        /*
         public void OnOutputAvailable(OutputAvailableEventArgs eventArgs)
         {
             OutputAvailable?.Invoke(this, eventArgs );
         }
+        */
     }
 }

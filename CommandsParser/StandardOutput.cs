@@ -84,6 +84,10 @@ namespace CommandsParser
         {
             EchoFormat(format, DEFAULT_UNSPECIFIED_COMMAND, args);
         }
+        public void EchoLineFormat(string format, params object[] args)//Append (output) and Flush
+        {
+            EchoLineFormat(format, DEFAULT_UNSPECIFIED_COMMAND, args);
+        }
 
         public void Echo(string message, string commandSender)//Append (output) and Flush
         {
@@ -98,6 +102,11 @@ namespace CommandsParser
         public void EchoFormat(string format, string commandSender, params object[] args)//Append (output) and Flush
         {
             AppendOutputFormat(format, args);
+            FlushOutput(commandSender);
+        }
+        public void EchoLineFormat(string format, string commandSender, params object[] args)//Append (output) and Flush
+        {
+            AppendOutputFormat(format+Environment.NewLine, args);
             FlushOutput(commandSender);
         }
         public void FlushOutput(string commandSender)

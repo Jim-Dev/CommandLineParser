@@ -117,7 +117,8 @@ namespace CommandsParser
                 {
                     string[] args = new string[splitInput.Length - 1];
                     Array.Copy(splitInput, 1, args, 0, args.Length);
-                    stdOutput.Echo(commandToExecute.Execute(args), commandToExecute.Name);
+                    commandToExecute.Execute(args);
+                    //stdOutput.Echo(commandToExecute.Execute(args), commandToExecute.Name);
                     return true;
                 }
                 else

@@ -26,7 +26,7 @@ namespace CommandsParser.Commands
             }
         }
 
-        public override string Execute(string[] arguments)
+        public override void Execute(string[] arguments)
         {
             if (arguments.Length > 0) //Show help for arg[0] command
             {
@@ -44,23 +44,26 @@ namespace CommandsParser.Commands
                             else
                                 sb.AppendFormat("{0},", command.Aliases[i]);
                         }
-
-                        AppendLineToResult(sb.ToString());
+                        CmdParser.StdOutput.EchoLine(sb.ToString(),Name);
+                        //AppendLineToResult(sb.ToString());
 
                     }
                     else
                     {
-                        AppendLineToResult("No aliases found for command {0}", arguments[0]);
+                        CmdParser.StdOutput.EchoLineFormat("No aliases found for command {0}", Name,arguments[0]);
+                        //AppendLineToResult("No aliases found for command {0}", arguments[0]);
                     }
                 }
                 else
                 {
-                    AppendLineToResult("Command {0} not found", arguments[0]);
+                    CmdParser.StdOutput.EchoLineFormat("Command {0} not found", Name, arguments[0]);
+                    //AppendLineToResult("Command {0} not found", arguments[0]);
                 }
             }
             else //List all aliases
             {
-                AppendLineToResult("List of all " + CmdParser.AvailableCommands.Count + " commands:");
+                CmdParser.StdOutput.EchoLineFormat("List of all {0} commands",Name, CmdParser.AvailableCommands.Count);
+                //AppendLineToResult("List of all " + CmdParser.AvailableCommands.Count + " commands:");
                 int commandIndex = 0;
                 foreach (BaseCommand command in CmdParser.AvailableCommands)
                 {
@@ -74,14 +77,18 @@ namespace CommandsParser.Commands
                         else
                             sb.AppendFormat("{0},", command.Aliases[i]);
                     }
-                    AppendLineToResult(string.Format("{0:000}: {1} => {2}", ++commandIndex, command.Name, sb.ToString()));
+                    CmdParser.StdOutput.EchoLineFormat("{0:000}: {1} => {2}", Name, ++commandIndex, command.Name, sb.ToString());
+                    //CmdParser.StdOutput.EchoLine(string.Format("{0:000}: {1} => {2}", ++commandIndex, command.Name, sb.ToString()), Name);
+                    //AppendLineToResult(string.Format("{0:000}: {1} => {2}", ++commandIndex, command.Name, sb.ToString()));
 
 
                 }
             }
+            /*
             string output = CommandOutput;
             OnOutputAvailable(new Events.OutputAvailableEventArgs(Name, output));
             return output;
+            */
         }
     }
 }
