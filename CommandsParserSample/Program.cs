@@ -16,8 +16,8 @@ namespace CommandsParserSample
         static void Main(string[] args)
         {
 
-            cmdParser.AddCommand(new ClearConsoleCommand());
-            cmdParser.AddCommand(new CloseCommand());
+            cmdParser.AddCommand(new ClearConsoleCommand(cmdParser));
+            cmdParser.AddCommand(new CloseCommand(cmdParser));
 
             cmdParser.OnOutputAvailable += StdOutput_OnOutputAvailable;
 
@@ -25,7 +25,8 @@ namespace CommandsParserSample
 
             while (isRunning)
             {
-                cmdParser.Execute(Console.ReadLine());
+                string input = Console.ReadLine();
+                cmdParser.Execute(input);
             }
         }
 

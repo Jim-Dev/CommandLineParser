@@ -9,10 +9,12 @@ namespace CommandsParserSample.Commands
 {
     public class CloseCommand : BaseCommand
     {
-        public CloseCommand()
-           : base("close",
+        public CloseCommand(CmdParser cmdParser)
+           : base(cmdParser,
+                 "close",
                  "Close the application",
-                 new List<string>() { "exit", "shutdown" })
+                 new List<string>() { "exit", "shutdown" },
+                 null)
         { }
 
         public override string[] Help

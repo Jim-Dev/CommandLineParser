@@ -18,6 +18,8 @@ namespace CommandsParser
         public delegate void OutputAvailableEventHandler(object sender, OutputAvailableEventArgs e);
         public event OutputAvailableEventHandler OutputAvailable;
 
+        protected CmdParser CmdParser;
+
         protected string CommandOutput
         {
             get
@@ -65,42 +67,30 @@ namespace CommandsParser
             }
         }
 
-        public BaseCommand()
+        public BaseCommand(CmdParser cmdParser, string name, string description, List<string> aliases, string[] commandHelp)
         {
-            Name = DEFAULT_COMMAND_NAME;
-            Description = DEFAULT_COMMAND_DESCRIPTION;
-            Aliases = new List<string>();
-            Help = DEFAULT_COMMAND_HELP;
-            if (commandOutput == null)
-                commandOutput = new StringBuilder();
-        }
-        public BaseCommand(string name)
-        {
-            Name = name;
-            Description = DEFAULT_COMMAND_DESCRIPTION;
-            Aliases = new List<string>();
-            Help = DEFAULT_COMMAND_HELP;
-            if (commandOutput == null)
-                commandOutput = new StringBuilder();
-        }
-        public BaseCommand(string name, string description)
-        {
-            Name = name;
-            Description = description;
-            Aliases = new List<string>();
-            Help = DEFAULT_COMMAND_HELP;
-            if (commandOutput == null)
-                commandOutput = new StringBuilder();
-        }
-        public BaseCommand(string name, string description, List<string> aliases)
-        {
-            Name = name;
-            Description = description;
+            this.CmdParser = cmdParser;
+
+            if (name.Trim() != string.Empty)
+                Name = name;
+            else
+                name = DEFAULT_COMMAND_NAME;
+
+            if (description.Trim() != string.Empty)
+                Description = description;
+            else
+                description = DEFAULT_COMMAND_DESCRIPTION;
+
             if (aliases != null && aliases.Count > 0)
                 Aliases = aliases;
             else
                 Aliases = new List<string>();
-            Help = DEFAULT_COMMAND_HELP;
+
+            if (commandHelp != null && commandHelp.Length > 0)
+                Help = commandHelp;
+            else
+                Help = DEFAULT_COMMAND_HELP;
+
             if (commandOutput == null)
                 commandOutput = new StringBuilder();
         }

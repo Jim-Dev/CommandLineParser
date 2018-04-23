@@ -10,10 +10,12 @@ namespace CommandsParserSample.Commands
 
     public class ClearConsoleCommand : BaseCommand
     {
-        public ClearConsoleCommand()
-           : base("clear",
+        public ClearConsoleCommand(CmdParser cmdParser)
+           : base(cmdParser,
+                 "clear",
                  "Clears the console",
-                 new List<string>() { "cls" })
+                 new List<string>() { "cls" },
+                 null)
         { }
 
         public override string[] Help

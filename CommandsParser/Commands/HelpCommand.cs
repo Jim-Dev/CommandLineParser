@@ -8,10 +8,12 @@ namespace CommandsParser.Commands
 {
     public class HelpCommand : BaseCommand
     {
-        public HelpCommand()
-           : base("help",
+        public HelpCommand(CmdParser cmdParser)
+           : base(cmdParser,
+                 "help",
                  "Displays the list of commands, or the help file for a specified command",
-                 new List<string>() { "man" })
+                 new List<string>() { "man" },
+                 null)
         { }
 
         public override string[] Help

@@ -18,6 +18,11 @@ namespace CommandsParser
 
         internal static List<BaseCommand> AvailableCommands;
 
+        public StandardOutput StdOutput
+        {
+            get { return stdOutput; }
+        }
+
         public CmdParser()
         {
             stdOutput = new StandardOutput();
@@ -69,8 +74,9 @@ namespace CommandsParser
 
         private void AddDefaultCommands()
         {
-            AddCommand(new Commands.HelpCommand());
-            AddCommand(new Commands.AliasCommand());
+            AddCommand(new Commands.HelpCommand(this));
+            AddCommand(new Commands.AliasCommand(this));
+            AddCommand(new Commands.EchoCommand(this));
         }
 
         public void AddCommand(BaseCommand command)
@@ -103,16 +109,21 @@ namespace CommandsParser
             string[] splitInput = input.Split(new[] { ' ', '\t' },
                 StringSplitOptions.RemoveEmptyEntries);
 
-            BaseCommand commandToExecute = GetCommand(splitInput[0]);
-            if (commandToExecute != null)
+            if (splitInput.Length > 0)
             {
-                string[] args = new string[splitInput.Length - 1];
-                Array.Copy(splitInput, 1, args, 0, args.Length);
-                stdOutput.Echo(commandToExecute.Execute(args), commandToExecute.Name);
-                return true;
+                string commandName = splitInput[0];
+                BaseCommand commandToExecute = GetCommand(splitInput[0]);
+                if (commandToExecute != null)
+                {
+                    string[] args = new string[splitInput.Length - 1];
+                    Array.Copy(splitInput, 1, args, 0, args.Length);
+                    stdOutput.Echo(commandToExecute.Execute(args), commandToExecute.Name);
+                    return true;
+                }
+                else
+                    stdOutput.EchoLine(string.Format("ERROR, command \"{0}\", not found.", commandName), commandName);
             }
-            else
-                stdOutput.EchoLine(string.Format("ERROR, command \"{0}\", not found.", commandToExecute.Name), commandToExecute.Name);
+
             return false;
         }
 

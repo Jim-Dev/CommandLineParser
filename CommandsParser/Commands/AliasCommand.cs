@@ -8,9 +8,11 @@ namespace CommandsParser.Commands
 {
     public class AliasCommand:BaseCommand
     {
-        public AliasCommand()
-           : base("alias",
+        public AliasCommand(CmdParser cmdParser)
+           : base(cmdParser,
+                 "alias",
                  "Display the list of all aliases for a given command or show if a command is an alias of another command",
+                 null,
                  null)
         { }
 
