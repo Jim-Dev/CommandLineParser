@@ -37,39 +37,50 @@ namespace CommandsParser
             set { this.outputPrefix = value; }
         }
 
-        private void AppendOutput(string message)
+        public void AppendOutput(string message)
         {
             AppendOutput(message, false);
         }
-        private void AppendOutputLine(string message)
+        public void AppendOutputLine(string message)
         {
             AppendOutputLine(message, false);
         }
-        private void AppendOutputFormat(string messageFormat, params object[] args)
+        public void AppendOutputFormat(string messageFormat, params object[] args)
         {
             AppendOutputFormat(messageFormat, false, args);
         }
+        public void AppendOutputLineFormat(string messageFormat, params object[] args)
+        {
+            AppendOutputLineFormat(messageFormat, false, args);
+        }
 
-        private void AppendOutput(string message, bool appendPrefix)
+        public void AppendOutput(string message, bool appendPrefix)
         {
             if (appendPrefix)
                 commandOutput.Append(OutputPrefix + message);
             else
                 commandOutput.Append(message);
         }
-        private void AppendOutputLine(string message, bool appendPrefix)
+        public void AppendOutputLine(string message, bool appendPrefix)
         {
             if (appendPrefix)
                 commandOutput.AppendLine(OutputPrefix + message);
             else
                 commandOutput.AppendLine(message);
         }
-        private void AppendOutputFormat(string messageFormat, bool appendPrefix, params object[] args)
+        public void AppendOutputFormat(string messageFormat, bool appendPrefix, params object[] args)
         {
             if (appendPrefix)
                 commandOutput.AppendFormat(OutputPrefix + messageFormat, args);
             else
                 commandOutput.AppendFormat(messageFormat, args);
+        }
+        public void AppendOutputLineFormat(string messageFormat, bool appendPrefix, params object[] args)
+        {
+            if (appendPrefix)
+                commandOutput.AppendFormat(OutputPrefix + messageFormat + Environment.NewLine, args);
+            else
+                commandOutput.AppendFormat(messageFormat + Environment.NewLine, args);
         }
 
         public void Echo(string message)//Append (output) and Flush
@@ -83,6 +94,10 @@ namespace CommandsParser
         public void EchoFormat(string format, params object[] args)//Append (output) and Flush
         {
             EchoFormat(format, DEFAULT_UNSPECIFIED_COMMAND, args);
+        }
+        public void EchoLineFormat(string format, params object[] args)//Append (output) and Flush
+        {
+            EchoLineFormat(format, DEFAULT_UNSPECIFIED_COMMAND, args);
         }
 
         public void Echo(string message, string commandSender)//Append (output) and Flush
@@ -98,6 +113,11 @@ namespace CommandsParser
         public void EchoFormat(string format, string commandSender, params object[] args)//Append (output) and Flush
         {
             AppendOutputFormat(format, args);
+            FlushOutput(commandSender);
+        }
+        public void EchoLineFormat(string format, string commandSender, params object[] args)//Append (output) and Flush
+        {
+            AppendOutputFormat(format+Environment.NewLine, args);
             FlushOutput(commandSender);
         }
         public void FlushOutput(string commandSender)

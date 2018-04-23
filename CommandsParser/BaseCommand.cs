@@ -13,59 +13,10 @@ namespace CommandsParser
         private const string DEFAULT_COMMAND_DESCRIPTION = "NO_DESCRIPTION";
         private readonly string[] DEFAULT_COMMAND_HELP = { "UNDEFINED_HELP"};
 
-        private StringBuilder commandOutput;
-
-        public delegate void OutputAvailableEventHandler(object sender, OutputAvailableEventArgs e);
-        public event OutputAvailableEventHandler OutputAvailable;
-
         protected CmdParser CmdParser;
 
-        protected string CommandOutput
-        {
-            get
-            {
-                string commandResult = GetOutputBuffer();
-                ClearOutputBuffer();
-                return commandResult;
-            }
-        }
-
-        protected void AppendToResult(string message)
-        {
-            commandOutput.Append(message);
-        }
-        protected void AppendToResult(string messageFormat, params object[] args)
-        {
-            commandOutput.AppendFormat(messageFormat, args);
-        }
-        protected void AppendLineToResult()
-        {
-            commandOutput.AppendLine();
-        }
-        protected void AppendLineToResult(string message)
-        {
-            commandOutput.AppendLine(message);
-        }
-        protected void AppendLineToResult(string message, params object[] args)
-        {
-            commandOutput.AppendLine(string.Format(message, args));
-        }
-        
-
-        protected void ClearOutputBuffer()
-        {
-            commandOutput.Clear();
-        }
-        public string GetOutputBuffer()
-        {
-            if (commandOutput != null)
-                return commandOutput.ToString();
-            else
-            {
-                commandOutput = new StringBuilder();
-                return string.Empty;
-            }
-        }
+        public delegate void CommandExecutedEventHandler(object sender, CommandExecutedEventArgs e);
+        public event CommandExecutedEventHandler CommandExecuted;
 
         public BaseCommand(CmdParser cmdParser, string name, string description, List<string> aliases, string[] commandHelp)
         {
@@ -90,9 +41,6 @@ namespace CommandsParser
                 Help = commandHelp;
             else
                 Help = DEFAULT_COMMAND_HELP;
-
-            if (commandOutput == null)
-                commandOutput = new StringBuilder();
         }
 
 
@@ -117,16 +65,12 @@ namespace CommandsParser
         /// </summary>
         /// <param name="arguments"></param>
         /// <returns></returns>
-        public virtual string Execute(string[] arguments)
-        {
-            string commandOutput = CommandOutput;
-            OnOutputAvailable(new OutputAvailableEventArgs(commandOutput, Name));
-            return commandOutput;
-        }
+        public virtual void Execute(string[] arguments)
+        {}
 
-        public void OnOutputAvailable(OutputAvailableEventArgs eventArgs)
+        public void OnCommandExecuted(CommandExecutedEventArgs eventArgs)
         {
-            OutputAvailable?.Invoke(this, eventArgs );
+            CommandExecuted?.Invoke(this, eventArgs);
         }
     }
 }

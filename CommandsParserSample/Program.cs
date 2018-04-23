@@ -15,11 +15,12 @@ namespace CommandsParserSample
         static CmdParser cmdParser = new CmdParser();
         static void Main(string[] args)
         {
-
-            cmdParser.AddCommand(new ClearConsoleCommand(cmdParser));
+            ClearConsoleCommand clsCommand = new ClearConsoleCommand(cmdParser);
+            cmdParser.AddCommand(clsCommand);
             cmdParser.AddCommand(new CloseCommand(cmdParser));
 
             cmdParser.OnOutputAvailable += StdOutput_OnOutputAvailable;
+            clsCommand.CommandExecuted += ClsCommand_CommandExecuted;
 
             isRunning = true;
 
@@ -30,9 +31,15 @@ namespace CommandsParserSample
             }
         }
 
+        private static void ClsCommand_CommandExecuted(object sender, CommandsParser.Events.CommandExecutedEventArgs e)
+        {
+            Console.WriteLine("output cleared!!!");
+        }
+
         private static void StdOutput_OnOutputAvailable(object sender, CommandsParser.Events.OutputAvailableEventArgs e)
         {
-            Console.WriteLine(e.Output);
+            if (e.Output.Trim() != CmdParser.COMMAND_START_OUTPUT && e.Output.Trim() != CmdParser.COMMAND_FINISH_OUTPUT)
+                Console.Write(e.Output);
         }
     }
 

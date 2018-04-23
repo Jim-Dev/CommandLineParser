@@ -23,11 +23,10 @@ namespace CommandsParser.Commands
             }
         }
 
-        public override string Execute(string[] arguments)
+        public override void Execute(string[] arguments)
         {
             string output= string.Join(" ", arguments);
-            base.CmdParser.StdOutput.EchoLine(output);
-            return output;
+            base.CmdParser.StdOutput.AppendOutputLine(output);
         }
     }
 }
