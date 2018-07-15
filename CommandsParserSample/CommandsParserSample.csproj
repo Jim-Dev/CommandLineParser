@@ -46,6 +46,9 @@
   <ItemGroup>
     <Compile Include="Commands\ClearConsoleCommand.cs" />
     <Compile Include="Commands\CloseCommand.cs" />
+    <Compile Include="Commands\TextCommand.cs" />
+    <Compile Include="Commands\TickTockCommand.cs" />
+    <Compile Include="Commands\UppercaseCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

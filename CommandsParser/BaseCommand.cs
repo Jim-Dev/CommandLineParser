@@ -17,6 +17,65 @@ namespace CommandsParser
 
         public delegate void CommandExecutedEventHandler(object sender, CommandExecutedEventArgs e);
         public event CommandExecutedEventHandler CommandExecuted;
+        public event CommandExecutedEventHandler CommandExecuting;
+
+        private StringBuilder commandOutput;
+
+        private bool isMuted = false;
+
+        public string Output
+        {
+            get
+            {
+                if (commandOutput != null)
+                {
+                    string output = commandOutput.ToString();
+                    ClearOutput();
+                    return output;
+                }
+                else
+                {
+                    commandOutput = new StringBuilder();
+                    return string.Empty;
+                }
+            }
+        }
+
+        public bool IsMuted
+        {
+            get { return this.isMuted; }
+            protected set { this.isMuted = value; }
+        }
+        public void AppendOutput(string message)
+        {
+            commandOutput.Append(message);
+            if(!IsMuted)
+            CmdParser.StdOutput.AppendOutput(message);
+        }
+        public void AppendOutputLine(string message)
+        {
+            commandOutput.AppendLine(message);
+            if (!IsMuted)
+                CmdParser.StdOutput.AppendOutputLine(message);
+        }
+        public void AppendOutputFormat(string messageFormat, params object[] args)
+        {
+            commandOutput.AppendFormat(messageFormat, args);
+            if (!IsMuted)
+                CmdParser.StdOutput.AppendOutputFormat(messageFormat, args);
+        }
+        public void AppendOutputLineFormat(string messageFormat, params object[] args)
+        {
+            commandOutput.AppendFormat(messageFormat+Environment.NewLine, args);
+            if (!IsMuted)
+                CmdParser.StdOutput.AppendOutputLineFormat(messageFormat, args);
+        }
+        private void ClearOutput()
+        {
+            commandOutput.Clear();
+        }
+
+       
 
         public BaseCommand(CmdParser cmdParser, string name, string description, List<string> aliases, string[] commandHelp)
         {
@@ -41,6 +100,8 @@ namespace CommandsParser
                 Help = commandHelp;
             else
                 Help = DEFAULT_COMMAND_HELP;
+
+            commandOutput = new StringBuilder();
         }
 
 
@@ -68,6 +129,11 @@ namespace CommandsParser
         public virtual void Execute(string[] arguments)
         {}
 
+        public void OnCommandExecuted()
+        {
+            string output = Output;
+            OnCommandExecuted(new CommandExecutedEventArgs(output));
+        }
         public void OnCommandExecuted(CommandExecutedEventArgs eventArgs)
         {
             CommandExecuted?.Invoke(this, eventArgs);

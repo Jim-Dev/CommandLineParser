@@ -122,8 +122,9 @@ namespace CommandsParser
                     Array.Copy(splitInput, 1, args, 0, args.Length);
 
                     //StdOutput.EchoLine(COMMAND_START_OUTPUT, commandToExecute.Name);
+                    //commandToExecute.CommandExecuted += CommandToExecute_CommandExecuted;
                     commandToExecute.Execute(args);
-                    commandToExecute?.OnCommandExecuted(new Events.CommandExecutedEventArgs(StdOutput.Output));
+                    //commandToExecute?.OnCommandExecuted(new Events.CommandExecutedEventArgs(commandToExecute.Output));
                     stdOutput.FlushOutput(commandToExecute.Name);
                     //StdOutput.EchoLine(COMMAND_FINISH_OUTPUT, commandToExecute.Name);
 
@@ -134,6 +135,11 @@ namespace CommandsParser
             }
 
             return false;
+        }
+
+        private void CommandToExecute_CommandExecuted(object sender, Events.CommandExecutedEventArgs e)
+        {
+            //StdOutput.AppendOutputLine(e.Output);
         }
 
         /// <summary>
