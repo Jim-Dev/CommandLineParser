@@ -68,7 +68,8 @@ namespace CommandsParserSample.Commands
             }
             else
             {
-                AppendOutputLine("tock");
+                CmdParser.StdOutput.EchoLine("tock");
+                cyclesCompleted = 0;
                 OnCommandExecuted();
 
             }

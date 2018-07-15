@@ -16,8 +16,9 @@ namespace CommandsParser
         protected CmdParser CmdParser;
 
         public delegate void CommandExecutedEventHandler(object sender, CommandExecutedEventArgs e);
+        public delegate void CommandExecutingEventHandler(object sender, CommandExecutingEventArgs e);
         public event CommandExecutedEventHandler CommandExecuted;
-        public event CommandExecutedEventHandler CommandExecuting;
+        public event CommandExecutingEventHandler CommandExecuting;
 
         private StringBuilder commandOutput;
 
@@ -137,6 +138,14 @@ namespace CommandsParser
         public void OnCommandExecuted(CommandExecutedEventArgs eventArgs)
         {
             CommandExecuted?.Invoke(this, eventArgs);
+        }
+        public void OnCommandExecuting(string[] arguments)
+        {
+            OnCommandExecuting(new CommandExecutingEventArgs(arguments));
+        }
+        public void OnCommandExecuting(CommandExecutingEventArgs eventArgs)
+        {
+            CommandExecuting?.Invoke(this, eventArgs);
         }
     }
 }
