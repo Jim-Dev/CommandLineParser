@@ -27,8 +27,12 @@ namespace CommandsParserSample
             cmdParser.AddCommand(tickTockCommand);
 
             cmdParser.OnOutputAvailable += StdOutput_OnOutputAvailable;
+
+            clsCommand.CommandExecuting += ClsCommand_CommandExecuting;
+
             clsCommand.CommandExecuted += ClsCommand_CommandExecuted;
             textCommand.CommandExecuted += TextCommand_CommandExecuted;
+            textCommand.CommandExecuting += TextCommand_CommandExecuting;
             uppercaseCommand.CommandExecuted += UppercaseCommand_CommandExecuted;
             tickTockCommand.CommandExecuted += TickTockCommand_CommandExecuted;
 
@@ -39,6 +43,18 @@ namespace CommandsParserSample
                 string input = Console.ReadLine();
                 cmdParser.Execute(input);
             }
+        }
+
+        private static void TextCommand_CommandExecuting(object sender, CommandsParser.Events.CommandExecutingEventArgs e)
+        {
+           
+        }
+
+        private static void ClsCommand_CommandExecuting(object sender, CommandsParser.Events.CommandExecutingEventArgs e)
+        {
+            Console.WriteLine("Calling cls with args {0}", e.MergedArgs);
+            if (e.Arguments.Length > 0)
+                e.Cancel = true;
         }
 
         private static void TickTockCommand_CommandExecuted(object sender, CommandsParser.Events.CommandExecutedEventArgs e)
@@ -53,7 +69,10 @@ namespace CommandsParserSample
 
         private static void TextCommand_CommandExecuted(object sender, CommandsParser.Events.CommandExecutedEventArgs e)
         {
-            cmdParser.Execute(string.Format("upper {0}", e.Output));
+            if (e.Arguments.Length > 0 && e.Arguments[0] == "upper")
+                cmdParser.Execute(string.Format("upper {0}", e.Output));
+            else
+                Console.WriteLine(e.Output);
             
         }
 

@@ -22,7 +22,7 @@ namespace CommandsParserSample.Commands
         public TickTockCommand(CmdParser cmdParser)
            : base(cmdParser,
                  "tick",
-                 "Clears the console",
+                 "Example of a delayed command",
                  new List<string>(),
                  null)
         { }
@@ -32,7 +32,7 @@ namespace CommandsParserSample.Commands
             get
             {
                 return new string[] {
-                    "Clears the console"};
+                    "Example of a delayed command"};
             }
         }
 
@@ -70,7 +70,7 @@ namespace CommandsParserSample.Commands
             {
                 CmdParser.StdOutput.EchoLine("tock");
                 cyclesCompleted = 0;
-                OnCommandExecuted();
+                OnCommandExecuted(new string[] { });
 
             }
         }

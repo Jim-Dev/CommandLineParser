@@ -29,7 +29,14 @@ namespace CommandsParserSample.Commands
 
         public override void Execute(string[] arguments)
         {
-            Console.Clear();
+            OnCommandExecuting(arguments);
+            if (Cancel)
+                return;
+            else
+            {
+                Console.Clear();
+                OnCommandExecuted(arguments);
+            }
         }
     }
 

@@ -12,7 +12,7 @@ namespace CommandsParserSample.Commands
         public UppercaseCommand(CmdParser cmdParser)
            : base(cmdParser,
                  "uppercase",
-                 "Clears the console",
+                 "Makes all the text in the arguments UPPERCASE",
                  new List<string>() { "upper" },
                  null)
         {
@@ -24,7 +24,7 @@ namespace CommandsParserSample.Commands
             get
             {
                 return new string[] {
-                    "Clears the console"};
+                    "Makes all the text in the arguments UPPERCASE"};
             }
         }
 
@@ -37,7 +37,7 @@ namespace CommandsParserSample.Commands
                 sb.AppendFormat("{0} ", arguments[i].ToUpper());
             }
             AppendOutputLine(sb.ToString());
-            OnCommandExecuted();
+            OnCommandExecuted(arguments);
         }
     }
 }

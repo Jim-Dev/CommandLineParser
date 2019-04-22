@@ -63,7 +63,7 @@ namespace CommandsParserSample.Commands
             get
             {
                 return new string[] {
-                    "Clears the console"};
+                    "Echoes a series of text lines"};
             }
         }
 
@@ -79,7 +79,7 @@ namespace CommandsParserSample.Commands
                     AppendOutputLine(GetRandomString());
                 }
             }
-            OnCommandExecuted();
+            OnCommandExecuted(arguments);
         }
 
         private string GetRandomString()

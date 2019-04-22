@@ -24,6 +24,14 @@ namespace CommandsParser
 
         private bool isMuted = false;
 
+        private bool cancel = false;
+
+        public bool Cancel
+        {
+            get { return this.cancel; }
+            set { this.cancel = value; }
+        }
+
         public string Output
         {
             get
@@ -40,6 +48,12 @@ namespace CommandsParser
                     return string.Empty;
                 }
             }
+        }
+
+        internal void CancelCommandExecution()
+        {
+            Cancel = true;
+            AppendOutputLine("Command canceled!");
         }
 
         public bool IsMuted
@@ -130,10 +144,10 @@ namespace CommandsParser
         public virtual void Execute(string[] arguments)
         {}
 
-        public void OnCommandExecuted()
+        public void OnCommandExecuted(string[] arguments)
         {
             string output = Output;
-            OnCommandExecuted(new CommandExecutedEventArgs(output));
+            OnCommandExecuted(new CommandExecutedEventArgs(output,arguments));
         }
         public void OnCommandExecuted(CommandExecutedEventArgs eventArgs)
         {
@@ -141,7 +155,7 @@ namespace CommandsParser
         }
         public void OnCommandExecuting(string[] arguments)
         {
-            OnCommandExecuting(new CommandExecutingEventArgs(arguments));
+            OnCommandExecuting(new CommandExecutingEventArgs(this,arguments));
         }
         public void OnCommandExecuting(CommandExecutingEventArgs eventArgs)
         {
