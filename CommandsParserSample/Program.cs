@@ -78,7 +78,7 @@ namespace CommandsParserSample
 
         private static void ClsCommand_CommandExecuted(object sender, CommandsParser.Events.CommandExecutedEventArgs e)
         {
-            Console.WriteLine("output cleared!!!");
+            Console.WriteLine("output cleared!!! On executed");
         }
 
         private static void StdOutput_OnOutputAvailable(object sender, CommandsParser.Events.OutputAvailableEventArgs e)

@@ -23,7 +23,6 @@ namespace CommandsParserSample.Commands
            : base(cmdParser,
                  "tick",
                  "Example of a delayed command",
-                 new List<string>(),
                  null)
         { }
 

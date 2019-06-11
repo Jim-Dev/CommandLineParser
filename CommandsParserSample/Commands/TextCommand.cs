@@ -51,8 +51,7 @@ namespace CommandsParserSample.Commands
            : base(cmdParser,
                  "text",
                  "Echoes a series of text lines",
-                 new List<string>() { "cls" },
-                 null)
+                 new List<string>() { "cls" })
         {
             rnd = new Random();
             IsMuted = true;
@@ -79,7 +78,6 @@ namespace CommandsParserSample.Commands
                     AppendOutputLine(GetRandomString());
                 }
             }
-            OnCommandExecuted(arguments);
         }
 
         private string GetRandomString()

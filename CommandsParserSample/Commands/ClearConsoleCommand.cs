@@ -14,8 +14,7 @@ namespace CommandsParserSample.Commands
            : base(cmdParser,
                  "clear",
                  "Clears the console",
-                 new List<string>() { "cls" },
-                 null)
+                 new List<string>() { "cls" })
         { }
 
         public override string[] Help
@@ -29,13 +28,11 @@ namespace CommandsParserSample.Commands
 
         public override void Execute(string[] arguments)
         {
-            OnCommandExecuting(arguments);
             if (Cancel)
                 return;
             else
             {
                 Console.Clear();
-                OnCommandExecuted(arguments);
             }
         }
     }

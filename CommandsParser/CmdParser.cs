@@ -12,14 +12,21 @@ namespace CommandsParser
         public const string COMMAND_START_OUTPUT = "<COMMAND_START>";
         public const string COMMAND_FINISH_OUTPUT = "<COMMAND_FINISH>";
 
-        private Queue<string> commandsHistory;
-        private int maxCommandsInHistory = 3;
+        private Queue<string> executedCommandsHistory;
+        private int maxCommandsInHistory = 32;
 
         public event OutputAvailableEventHandler OnOutputAvailable;
 
         private StandardOutput stdOutput;
 
         internal static List<BaseCommand> AvailableCommands;
+
+        public bool UseAutomaticOutput = false;
+
+        public string[] CommandsHistory
+        {
+            get { return this.executedCommandsHistory.ToArray(); }
+        }
 
         public StandardOutput StdOutput
         {
@@ -33,7 +40,7 @@ namespace CommandsParser
 
             AvailableCommands = new List<BaseCommand>();
 
-            commandsHistory = new Queue<string>();
+            executedCommandsHistory = new Queue<string>();
 
             AddDefaultCommands();
         }
@@ -80,6 +87,7 @@ namespace CommandsParser
             AddCommand(new Commands.HelpCommand(this));
             AddCommand(new Commands.AliasCommand(this));
             AddCommand(new Commands.EchoCommand(this));
+            AddCommand(new Commands.HistoryCommand(this));
         }
 
         public void AddCommand(BaseCommand command)
@@ -108,25 +116,27 @@ namespace CommandsParser
             {
                 return false;
             }
-
+            
             string[] splitInput = input.Split(new[] { ' ', '\t' },
                 StringSplitOptions.RemoveEmptyEntries);
 
             if (splitInput.Length > 0)
             {
                 string commandName = splitInput[0];
+                string joinedArguments = string.Join(" ", splitInput.Skip(1));
+
                 BaseCommand commandToExecute = GetCommand(splitInput[0]);
                 if (commandToExecute != null)
                 {
                     string[] args = new string[splitInput.Length - 1];
                     Array.Copy(splitInput, 1, args, 0, args.Length);
 
-                    //StdOutput.EchoLine(COMMAND_START_OUTPUT, commandToExecute.Name);
-                    //commandToExecute.CommandExecuted += CommandToExecute_CommandExecuted;
-                    commandToExecute.Execute(args);
-                    //commandToExecute?.OnCommandExecuted(new Events.CommandExecutedEventArgs(commandToExecute.Output));
+                    executedCommandsHistory.Enqueue(string.Format("{0} {1}", commandToExecute.Name, joinedArguments));
+                    if (executedCommandsHistory.Count > maxCommandsInHistory)
+                        executedCommandsHistory.Dequeue();
+
+                    commandToExecute.RunCommand(args);
                     stdOutput.FlushOutput(commandToExecute.Name);
-                    //StdOutput.EchoLine(COMMAND_FINISH_OUTPUT, commandToExecute.Name);
 
                     return true;
                 }
@@ -137,10 +147,6 @@ namespace CommandsParser
             return false;
         }
 
-        private void CommandToExecute_CommandExecuted(object sender, Events.CommandExecutedEventArgs e)
-        {
-            //StdOutput.AppendOutputLine(e.Output);
-        }
 
         /// <summary>
         /// Removes all commands.

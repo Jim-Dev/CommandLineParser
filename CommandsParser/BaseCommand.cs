@@ -90,9 +90,15 @@ namespace CommandsParser
             commandOutput.Clear();
         }
 
+        public void RunCommand(string[] arguments)
+        {
+            OnCommandExecuting(arguments);
+            Execute(arguments);
+            OnCommandExecuted(arguments);
+        }
        
 
-        public BaseCommand(CmdParser cmdParser, string name, string description, List<string> aliases, string[] commandHelp)
+        public BaseCommand(CmdParser cmdParser, string name, string description, List<string> aliases)
         {
             this.CmdParser = cmdParser;
 
@@ -110,11 +116,6 @@ namespace CommandsParser
                 Aliases = aliases;
             else
                 Aliases = new List<string>();
-
-            if (commandHelp != null && commandHelp.Length > 0)
-                Help = commandHelp;
-            else
-                Help = DEFAULT_COMMAND_HELP;
 
             commandOutput = new StringBuilder();
         }

@@ -10,7 +10,6 @@ namespace CommandsParser.Commands
            : base(cmdParser,
                  "echo",
                  "Echoes a message to the active Output",
-                 null,
                  null)
         { }
 

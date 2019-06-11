@@ -13,8 +13,7 @@ namespace CommandsParserSample.Commands
            : base(cmdParser,
                  "close",
                  "Close the application",
-                 new List<string>() { "exit", "shutdown" },
-                 null)
+                 new List<string>() { "exit", "shutdown" })
         { }
 
         public override string[] Help
